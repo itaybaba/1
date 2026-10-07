@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="he">
+<head>
+<meta charset="utf-8">
+<title>Red Light Cabin Orbit</title>
+<style>
+  html, body { margin: 0; background: #07080a; overflow: hidden; }
+  #wrap { position: relative; width: 1920px; height: 1080px; }
+  canvas { display: block; }
+  .tag {
+    position: absolute; right: 96px; bottom: 92px; text-align: right; color: #f3ece4;
+    font-family: "Liberation Sans", "DejaVu Sans", sans-serif; opacity: 0;
+  }
+  .tag .chip {
+    display: inline-block; font-size: 15px; letter-spacing: 3px; padding: 6px 12px;
+    background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.12); color: #e9b48a; margin-bottom: 18px;
+  }
+  .tag h1 { margin: 0; font-size: 64px; font-weight: 700; direction: rtl; }
+  .tag p { margin: 10px 0 0; font-size: 22px; letter-spacing: 2px; color: #b9b2aa; }
+  .num { position: absolute; left: 96px; top: 80px; color: #f3ece4; font: 600 22px "Liberation Sans", sans-serif; letter-spacing: 3px; opacity: 0; }
+  .vignette { position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse at 50% 55%, rgba(0,0,0,0) 55%, rgba(0,0,0,.55) 100%); }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "./node_modules/three/build/three.module.js",
+  "three/addons/": "./node_modules/three/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="wrap">
+  <div class="vignette"></div>
+  <div class="num" id="num">08 / RECHARGE</div>
+  <div class="tag" id="tag">
+    <div class="chip">RECHARGE</div>
+    <h1>תא אור אדום</h1>
+    <p>RED LIGHT THERAPY CABIN</p>
+  </div>
+</div>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+const W = 1920, H = 1080;
+const DURATION = 16;              // seconds
+const params = new URLSearchParams(location.search);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1);
+renderer.setSize(W, H);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+document.getElementById('wrap').prepend(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x07080a);
+scene.fog = new THREE.FogExp2(0x07080a, 0.055);
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.35;
+
+const camera = new THREE.PerspectiveCamera(32, W / H, 0.1, 100);
+
+// ---------- procedural textures ----------
+function canvasTex(w, h, draw, srgb = true) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  draw(c.getContext('2d'), w, h);
+  const t = new THREE.CanvasTexture(c);
+  if (srgb) t.colorSpace = THREE.SRGBColorSpace;
+  t.anisotropy = 8;
+  return t;
+}
+// seeded rng so every frame/run is identical
+let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+function woodTex(base, dark, light) {
+  return canvasTex(512, 1024, (g, w, h) => {
+    g.fillStyle = base; g.fillRect(0, 0, w, h);
+    // vertical slats
+    const slat = w / 8;
+    for (let i = 0; i < 8; i++) {
+      const tone = rnd() * 0.18 - 0.09;
+      g.fillStyle = tone > 0 ? `rgba(255,220,180,${tone})` : `rgba(0,0,0,${-tone})`;
+      g.fillRect(i * slat, 0, slat, h);
+      for (let k = 0; k < 40; k++) {
+        const x = i * slat + rnd() * slat;
+        g.strokeStyle = rnd() > .5 ? dark : light;
+        g.globalAlpha = 0.08 + rnd() * 0.12;
+        g.lineWidth = 0.6 + rnd() * 1.6;
+        g.beginPath(); g.moveTo(x, 0);
+        for (let y = 0; y <= h; y += 32) g.lineTo(x + Math.sin(y * 0.01 + k) * 2.2, y);
+        g.stroke();
+      }
+      g.globalAlpha = 1;
+      g.fillStyle = 'rgba(0,0,0,.55)'; g.fillRect(i * slat, 0, 2, h);   // groove
+    }
+  });
+}
+function ledTex() {
+  return canvasTex(256, 1024, (g, w, h) => {
+    g.fillStyle = '#000'; g.fillRect(0, 0, w, h);
+    const cols = 6, rows = 24;
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      const x = (c + .5) * w / cols, y = (r + .5) * h / rows;
+      const grd = g.createRadialGradient(x, y, 0, x, y, 15);
+      grd.addColorStop(0, '#fff2ee'); grd.addColorStop(.25, '#ff3a26'); grd.addColorStop(1, 'rgba(120,0,0,0)');
+      g.fillStyle = grd; g.beginPath(); g.arc(x, y, 15, 0, Math.PI * 2); g.fill();
+    }
+  });
+}
+function screenTex() {
+  return canvasTex(256, 384, (g, w, h) => {
+    const bg = g.createLinearGradient(0, 0, 0, h); bg.addColorStop(0, '#1d2733'); bg.addColorStop(1, '#0b0f14');
+    g.fillStyle = bg; g.fillRect(0, 0, w, h);
+    g.strokeStyle = '#ff4a35'; g.lineWidth = 10; g.beginPath(); g.arc(w / 2, h * .42, 70, -Math.PI * .5, Math.PI * 1.1); g.stroke();
+    g.fillStyle = '#e8eef5'; g.font = 'bold 54px Liberation Sans'; g.textAlign = 'center'; g.fillText('12:00', w / 2, h * .42 + 18);
+    g.fillStyle = '#8fa3b6'; g.font = '22px Liberation Sans'; g.fillText('660 / 850 nm', w / 2, h * .78);
+  });
+}
+function floorTex() {
+  return canvasTex(1024, 1024, (g, w, h) => {
+    g.fillStyle = '#5a5552'; g.fillRect(0, 0, w, h);
+    for (let i = 0; i < 9000; i++) {
+      g.fillStyle = `rgba(${rnd() > .5 ? '255,255,255' : '0,0,0'},${rnd() * .05})`;
+      g.fillRect(rnd() * w, rnd() * h, 2 + rnd() * 6, 2 + rnd() * 6);
+    }
+    g.strokeStyle = 'rgba(0,0,0,.35)'; g.lineWidth = 2;
+    for (let i = 0; i <= 2; i++) { g.beginPath(); g.moveTo(i * w / 2, 0); g.lineTo(i * w / 2, h); g.stroke(); g.beginPath(); g.moveTo(0, i * h / 2); g.lineTo(w, i * h / 2); g.stroke(); }
+  });
+}
+
+// ---------- materials ----------
+const woodOut = new THREE.MeshStandardMaterial({ map: woodTex('#3a2414', '#140a04', '#7a4f2e'), roughness: 0.45, metalness: 0.0 });
+const woodIn = new THREE.MeshStandardMaterial({ map: woodTex('#b98352', '#6d4524', '#e7b483'), roughness: 0.7 });
+const blackTrim = new THREE.MeshStandardMaterial({ color: 0x0c0c0d, roughness: 0.3, metalness: 0.8 });
+const ledMap = ledTex(); ledMap.wrapS = ledMap.wrapT = THREE.RepeatWrapping;
+const ledMat = new THREE.MeshStandardMaterial({ color: 0x110000, emissive: 0xffffff, emissiveMap: ledMap, emissiveIntensity: 2.4, roughness: 0.95 });
+const glass = new THREE.MeshPhysicalMaterial({ color: 0x1a1210, roughness: 0.32, metalness: 0, transparent: true, opacity: 0.22, envMapIntensity: 2.5, side: THREE.DoubleSide });
+
+// ---------- cabin ----------
+const cabin = new THREE.Group(); scene.add(cabin);
+const CW = 1.15, CD = 1.15, CH = 2.15, T = 0.06;
+function box(w, h, d, mat, x, y, z, cast = true) {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+  m.position.set(x, y, z); m.castShadow = cast; m.receiveShadow = true; cabin.add(m); return m;
+}
+// plinth
+box(CW + 0.04, 0.08, CD + 0.04, blackTrim, 0, 0.04, 0);
+// walls: outer wood, inner pale wood
+const wallY = 0.08 + (CH - 0.08 - 0.16) / 2, wallH = CH - 0.08 - 0.16;
+const back = box(CW, wallH, T, [woodOut, woodOut, woodOut, woodOut, woodIn, woodOut], 0, wallY, -CD / 2 + T / 2);
+box(T, wallH, CD - T, [woodIn, woodOut, woodOut, woodOut, woodOut, woodOut], -CW / 2 + T / 2, wallY, T / 2 * 0);
+box(T, wallH, CD - T, [woodOut, woodIn, woodOut, woodOut, woodOut, woodOut], CW / 2 - T / 2, wallY, 0);
+// roof crown
+box(CW + 0.06, 0.16, CD + 0.06, woodOut, 0, CH - 0.08, 0);
+box(CW + 0.07, 0.02, CD + 0.07, blackTrim, 0, CH - 0.17, 0);
+// front frame posts (matte: they sit right next to the inner red light)
+const postMat = new THREE.MeshStandardMaterial({ color: 0x0c0c0d, roughness: 0.85, metalness: 0.1 });
+box(0.07, wallH, 0.07, postMat, -CW / 2 + 0.035, wallY, CD / 2 - 0.035);
+box(0.07, wallH, 0.07, postMat, CW / 2 - 0.035, wallY, CD / 2 - 0.035);
+// floor inside
+box(CW - 2 * T, 0.02, CD - T, woodIn, 0, 0.09, 0, false);
+
+// LED panels (back + sides + ceiling strip)
+const ledPanels = [];
+function led(w, h, x, y, z, ry, rep = 1) {
+  const map = ledMap.clone(); map.needsUpdate = true; map.repeat.set(rep, 1);
+  const mat = ledMat.clone(); mat.emissiveMap = map;
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat);
+  m.position.set(x, y, z); m.rotation.y = ry; cabin.add(m); ledPanels.push(m); return m;
+}
+const panelH = 1.55, panelY = 0.2 + panelH / 2 + 0.05;
+led(0.30, panelH, -0.33, panelY, -CD / 2 + T + 0.006, 0);
+led(0.30, panelH, 0.00, panelY, -CD / 2 + T + 0.006, 0);
+led(0.30, panelH, 0.33, panelY, -CD / 2 + T + 0.006, 0);
+led(0.30, panelH, -CW / 2 + T + 0.006, panelY, -0.22, Math.PI / 2);
+led(0.30, panelH, -CW / 2 + T + 0.006, panelY, 0.16, Math.PI / 2);
+led(0.30, panelH, CW / 2 - T - 0.006, panelY, -0.22, -Math.PI / 2);
+led(0.30, panelH, CW / 2 - T - 0.006, panelY, 0.16, -Math.PI / 2);
+// panel frames (matte so the inner point light doesn't leave a specular hot spot)
+const panelFrameMat = new THREE.MeshStandardMaterial({ color: 0x0a0a0a, roughness: 0.95 });
+for (const p of ledPanels) {
+  const f = new THREE.Mesh(new THREE.PlaneGeometry(0.33, panelH + 0.04), panelFrameMat);
+  f.position.copy(p.position); f.rotation.copy(p.rotation);
+  f.translateZ(-0.003); cabin.add(f);
+}
+// inner red light — shadowed point light so the glow stays inside the cabin and leaks only through the door
+const inner = new THREE.PointLight(0xff2a14, 5, 3.2, 1.4);
+inner.position.set(0, 1.15, 0.05); inner.castShadow = true; inner.shadow.mapSize.set(512, 512); inner.shadow.bias = -0.002; inner.shadow.radius = 6;
+cabin.add(inner);
+const spill = new THREE.SpotLight(0xff2a12, 18, 6, Math.PI / 3.2, 0.9, 1.6);
+spill.position.set(0, 1.4, 0.1); spill.target.position.set(0, 0, 2.2); spill.castShadow = true; spill.shadow.mapSize.set(1024, 1024); spill.shadow.bias = -0.001; cabin.add(spill, spill.target);
+
+// door (hinged on right post, open ~ 100deg)
+const door = new THREE.Group();
+door.position.set(CW / 2 - 0.07, 0, CD / 2 - 0.02);
+door.rotation.y = -1.25;
+cabin.add(door);
+const doorW = CW - 0.14;
+const dFrameMat = woodOut;
+function dpart(w, h, d, mat, x, y, z) { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y, z); m.castShadow = true; door.add(m); return m; }
+dpart(doorW, 0.12, 0.05, dFrameMat, -doorW / 2, 0.14, 0);
+dpart(doorW, 0.12, 0.05, dFrameMat, -doorW / 2, CH - 0.24, 0);
+dpart(0.08, CH - 0.26, 0.05, dFrameMat, -0.04, (CH - 0.06) / 2 + 0.04, 0);
+dpart(0.08, CH - 0.26, 0.05, dFrameMat, -doorW + 0.04, (CH - 0.06) / 2 + 0.04, 0);
+const gpane = new THREE.Mesh(new THREE.PlaneGeometry(doorW - 0.16, CH - 0.48), glass); gpane.position.set(-doorW / 2, (CH - 0.06) / 2 + 0.04, 0); door.add(gpane);
+dpart(0.025, 0.55, 0.025, blackTrim, -doorW + 0.04, 1.05, 0.06);   // handle
+dpart(0.025, 0.025, 0.05, blackTrim, -doorW + 0.04, 1.27, 0.035);
+dpart(0.025, 0.025, 0.05, blackTrim, -doorW + 0.04, 0.83, 0.035);
+
+// control screen on the left outer wall
+const scr = new THREE.Mesh(new THREE.PlaneGeometry(0.16, 0.24), new THREE.MeshStandardMaterial({ color: 0x000000, emissive: 0xffffff, emissiveMap: screenTex(), emissiveIntensity: 0.9, roughness: 0.15 }));
+scr.position.set(-CW / 2 - 0.010, 1.35, 0.32); scr.rotation.y = -Math.PI / 2; cabin.add(scr);
+const scrBezel = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.27, 0.19), blackTrim); scrBezel.position.set(-CW / 2 - 0.002, 1.35, 0.32); cabin.add(scrBezel);
+
+// warm crown light strip (front)
+const strip = new THREE.Mesh(new THREE.BoxGeometry(CW - 0.1, 0.012, 0.01), new THREE.MeshBasicMaterial({ color: new THREE.Color(1.0, 0.62, 0.32).multiplyScalar(3) }));
+strip.position.set(0, CH - 0.19, CD / 2 + 0.032); cabin.add(strip);
+
+// warm floor under-glow around the plinth
+const glowTex = canvasTex(256, 256, (g, w, h) => { const r = g.createRadialGradient(w/2, h/2, 0, w/2, h/2, w/2); r.addColorStop(0, 'rgba(255,150,80,.55)'); r.addColorStop(.6, 'rgba(255,110,50,.12)'); r.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = r; g.fillRect(0, 0, w, h); });
+const glow = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 2.6), new THREE.MeshBasicMaterial({ map: glowTex, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
+glow.rotation.x = -Math.PI / 2; glow.position.y = 0.004; cabin.add(glow);
+box(0.05, wallH, 0.05, blackTrim, -CW / 2 + 0.02, wallY, -CD / 2 + 0.02);
+box(0.05, wallH, 0.05, blackTrim, CW / 2 - 0.02, wallY, -CD / 2 + 0.02);
+// back-side vents / logo groove so the rear isn't blank
+for (let i = 0; i < 5; i++) box(0.5, 0.012, 0.01, blackTrim, 0, 1.75 + i * 0.035, -CD / 2 - 0.004, false);
+
+// ---------- studio ----------
+const floorMap = floorTex(); floorMap.wrapS = floorMap.wrapT = THREE.RepeatWrapping; floorMap.repeat.set(6, 6);
+const floor = new THREE.Mesh(new THREE.CircleGeometry(30, 96), new THREE.MeshStandardMaterial({ map: floorMap, color: 0x2a2826, roughness: 0.6, metalness: 0.05 }));
+floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; scene.add(floor);
+floor.material.envMap = scene.environment; floor.material.envMapIntensity = 0.06;  // RoomEnvironment's ceiling panels otherwise flare on the floor from some angles
+
+// ring of slatted warm wood walls with vertical light coves — gives parallax while orbiting
+const ringR = 7.5, segs = 14;
+const slatWood = new THREE.MeshStandardMaterial({ map: woodTex('#6b4428', '#33200f', '#b07a4c'), roughness: 0.7 });
+const coveMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(1.0, 0.52, 0.2).multiplyScalar(1.15) });
+for (let i = 0; i < segs; i++) {
+  const a = i / segs * Math.PI * 2;
+  const segW = 2 * ringR * Math.tan(Math.PI / segs);
+  const wall = new THREE.Mesh(new THREE.PlaneGeometry(segW, 4.2), slatWood);
+  wall.position.set(Math.sin(a) * ringR, 2.1, Math.cos(a) * ringR); wall.lookAt(0, 2.1, 0); wall.receiveShadow = true; scene.add(wall);
+  const cove = new THREE.Mesh(new THREE.PlaneGeometry(0.05, 3.4), coveMat);
+  const a2 = a + Math.PI / segs, r2 = ringR * Math.cos(Math.PI / segs) - 0.02;
+  cove.position.set(Math.sin(a2) * r2, 2.0, Math.cos(a2) * r2); cove.lookAt(0, 2.0, 0); scene.add(cove);
+  // plant-ish dark silhouettes on a few segments
+  if (i % 4 === 1) {
+    const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.17, 0.5, 24), blackTrim);
+    const pr = ringR - 0.6; pot.position.set(Math.sin(a) * pr, 0.25, Math.cos(a) * pr); scene.add(pot);
+    for (let k = 0; k < 9; k++) {
+      const leaf = new THREE.Mesh(new THREE.ConeGeometry(0.05, 1.1 + rnd() * .5, 6), new THREE.MeshStandardMaterial({ color: 0x1d2a1a, roughness: .8 }));
+      leaf.position.set(pot.position.x + (rnd() - .5) * .2, 0.95, pot.position.z + (rnd() - .5) * .2);
+      leaf.rotation.set((rnd() - .5) * .7, 0, (rnd() - .5) * .7); scene.add(leaf);
+    }
+  }
+}
+
+// key / rim lighting
+scene.add(new THREE.HemisphereLight(0x3a3430, 0x0a0908, 0.6));
+const key = new THREE.SpotLight(0xffd2a6, 40, 16, Math.PI / 13, 0.55, 1.2);
+key.position.set(3.2, 4.8, 3.0); key.target.position.set(0, 1.25, 0); key.castShadow = true;
+key.shadow.mapSize.set(2048, 2048); key.shadow.bias = -0.0004; key.shadow.radius = 4;
+scene.add(key, key.target);
+const rim = new THREE.SpotLight(0xffb07a, 55, 14, Math.PI / 6, 0.7, 1.4);
+rim.position.set(-3.5, 4.2, -3.2); rim.target.position.set(0, 1.1, 0); scene.add(rim, rim.target);
+const top = new THREE.SpotLight(0xfff0e0, 14, 8, Math.PI / 8, 0.8, 1.5);
+top.position.set(0, 5, 0.3); top.target.position.set(0, 0, 0); scene.add(top, top.target);
+
+// ---------- post ----------
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(W, H), 0.75, 0.55, 0.82);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
+
+// ---------- camera choreography ----------
+// angular speed (deg/s) keyframes: slow reveal -> sweep -> linger on side -> fast across back -> ease into hero front
+const speedKeys = [
+  [0, 6], [1.5, 14], [3.0, 46], [4.4, 62], [5.4, 18], [7.0, 14], [8.0, 70], [9.4, 88], [10.6, 40], [12.0, 12], [14.0, 5], [16.0, 2],
+];
+const sstep = x => x * x * (3 - 2 * x);
+function speedAt(t) {
+  for (let i = 0; i < speedKeys.length - 1; i++) {
+    const [t0, v0] = speedKeys[i], [t1, v1] = speedKeys[i + 1];
+    if (t <= t1) return v0 + (v1 - v0) * sstep((t - t0) / (t1 - t0));
+  }
+  return speedKeys[speedKeys.length - 1][1];
+}
+// integrate once into a lookup table
+const LUT = [0]; const DT = 1 / 600;
+for (let t = DT; t <= DURATION + 1e-6; t += DT) LUT.push(LUT[LUT.length - 1] + speedAt(t) * DT);
+const totalDeg = LUT[LUT.length - 1];
+const START = -35 - (totalDeg - 360);   // finish exactly facing the open door, slightly to the right
+function angleAt(t) { const i = Math.min(LUT.length - 1, Math.round(t / DT)); return (START + LUT[i]) * Math.PI / 180; }
+
+function camAt(t) {
+  const a = angleAt(t);
+  const u = t / DURATION;
+  const r = 6.6 - 0.8 * Math.sin(u * Math.PI) - 0.9 * sstep(Math.max(0, (t - 12.5) / 3.5));
+  const h = 1.25 + 0.45 * Math.sin(u * Math.PI * 2 + 0.6) * (1 - u * 0.6) + 0.12 * Math.sin(t * 0.9);
+  camera.position.set(Math.sin(a) * r, h, Math.cos(a) * r);
+  // key and rim travel with the camera (offset) so the product is always sculpted the same way
+  const ka = a + 0.75, ra = a + Math.PI + 0.6;
+  key.position.set(Math.sin(ka) * 4.6, 3.3, Math.cos(ka) * 4.6);
+  rim.position.set(Math.sin(ra) * 4.6, 4.2, Math.cos(ra) * 4.6);
+  // in the closing shot, slide the product left of centre to make room for the title
+  const e = 0.6 * sstep(Math.max(0, (t - 11.5) / 4));
+  camera.lookAt(Math.cos(a) * e, 1.08 + 0.05 * Math.sin(t * .7), -Math.sin(a) * e);
+  camera.fov = 32 - 2 * sstep(Math.max(0, (t - 12) / 4));
+  camera.updateProjectionMatrix();
+}
+
+const tag = document.getElementById('tag'), num = document.getElementById('num');
+window.renderAt = (t) => {
+  camAt(t);
+  // subtle LED breathing
+  const pulse = 2.9 + 0.3 * Math.sin(t * 1.6);
+  for (const p of ledPanels) p.material.emissiveIntensity = pulse;
+  // fade in from black, title at the end
+  const fadeIn = Math.min(1, t / 0.8);
+  renderer.toneMappingExposure = 1.0 * fadeIn;
+  const ti = sstep(Math.min(1, Math.max(0, (t - 12.2) / 1.3)));
+  tag.style.opacity = ti; tag.style.transform = `translateY(${(1 - ti) * 18}px)`;
+  num.style.opacity = ti * 0.8;
+  composer.render();
+};
+window.DURATION = DURATION;
+window.__dbg = n => { if (n === 'leds') { ledPanels.forEach(p => p.visible = false); return; } if (n === 'inner') { inner.visible = false; return; } if (n === 'door') { door.visible = false; return; } if (n === 'screen') { scr.visible = false; return; } const L = { key, rim, top, spill, hemi: scene.children.find(o => o.isHemisphereLight) }; for (const k in L) L[k].visible = true; if (L[n]) L[n].visible = false; };
+window.ready = true;
+if (params.has('preview')) { const t0 = performance.now(); (function loop() { renderAt(((performance.now() - t0) / 1000) % DURATION); requestAnimationFrame(loop); })(); }
+else renderAt(Number(params.get('t') || 0));
+</script>
+</body>
+</html>
