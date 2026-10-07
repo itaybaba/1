@@ -142,7 +142,8 @@ const woodIn = new THREE.MeshStandardMaterial({ map: woodTex('#b98352', '#6d4524
 const blackTrim = new THREE.MeshStandardMaterial({ color: 0x0c0c0d, roughness: 0.3, metalness: 0.8 });
 const ledMap = ledTex(); ledMap.wrapS = ledMap.wrapT = THREE.RepeatWrapping;
 const ledMat = new THREE.MeshStandardMaterial({ color: 0x110000, emissive: 0xffffff, emissiveMap: ledMap, emissiveIntensity: 2.4, roughness: 0.95 });
-const glass = new THREE.MeshPhysicalMaterial({ color: 0x1a1210, roughness: 0.32, metalness: 0, transparent: true, opacity: 0.22, envMapIntensity: 2.5, side: THREE.DoubleSide });
+// unlit glass with an env reflection only: a lit material mirrored the inner red light as a hot dot
+const glass = new THREE.MeshBasicMaterial({ color: 0x2a1c18, transparent: true, opacity: 0.2, envMap: scene.environment, reflectivity: 0.12, side: THREE.DoubleSide });
 
 // ---------- cabin ----------
 const cabin = new THREE.Group(); scene.add(cabin);
@@ -297,9 +298,10 @@ function speedAt(t) {
 // integrate once into a lookup table
 const LUT = [0]; const DT = 1 / 600;
 for (let t = DT; t <= DURATION + 1e-6; t += DT) LUT.push(LUT[LUT.length - 1] + speedAt(t) * DT);
-const totalDeg = LUT[LUT.length - 1];
-const START = -35 - (totalDeg - 360);   // finish exactly facing the open door, slightly to the right
-function angleAt(t) { const i = Math.min(LUT.length - 1, Math.round(t / DT)); return (START + LUT[i]) * Math.PI / 180; }
+// exactly one revolution: rescale the integrated speed curve to 360deg, starting and ending on the open door
+const SCALE = 360 / LUT[LUT.length - 1];
+const START = -35 - 360;
+function angleAt(t) { const i = Math.min(LUT.length - 1, Math.round(t / DT)); return (START + LUT[i] * SCALE) * Math.PI / 180; }
 
 function camAt(t) {
   const a = angleAt(t);
