@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ONE · מדריך וידאו</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F7F4EF; --paper: #FBFAF7; --ink: #141210; --muted: #6f6a63; --line: #e2ddd4; --red: #D0494A;
+    --card-font: "Outfit", "Inter", "Helvetica Neue", sans-serif;
+    --he-font: "Heebo", "Assistant", "Arial Hebrew", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--paper); color: var(--ink); }
+  body { font-family: var(--he-font); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
+  .en { font-family: var(--card-font); direction: ltr; unicode-bidi: isolate; }
+  header { background: var(--cream); padding: 40px 0 28px; border-bottom: 1px solid var(--line); }
+  .eyebrow { font-size: 13px; color: var(--muted); margin: 0 0 8px; }
+  h1 { font-size: clamp(26px, 5vw, 40px); font-weight: 500; line-height: 1.2; margin: 0 0 12px; }
+  .lead { font-size: 17px; font-weight: 300; margin: 0; max-width: 720px; }
+  section { padding: 34px 0; border-bottom: 1px solid var(--line); }
+  h2 { font-size: 13px; letter-spacing: .08em; font-weight: 500; color: var(--muted); margin: 0 0 14px; }
+  h3 { font-size: 18px; font-weight: 500; margin: 0 0 6px; }
+  p { margin: 0 0 10px; }
+  .verdict { background: #fff; border: 1px solid var(--line); border-inline-start: 4px solid var(--red); border-radius: 6px; padding: 16px 18px; }
+  .routes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  @media (max-width: 720px) { .routes { grid-template-columns: 1fr; } }
+  .route { background: #fff; border: 1px solid var(--line); border-radius: 6px; padding: 16px; }
+  .route ul { margin: 6px 0 0; padding-inline-start: 18px; }
+  .route li { margin-bottom: 4px; }
+  .pro { color: #2f6b45; } .con { color: #9a3b2f; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  td, th { text-align: right; padding: 9px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-weight: 500; color: var(--muted); font-size: 12.5px; }
+  .scroll { overflow-x: auto; }
+  .steps { margin: 0; padding-inline-start: 20px; }
+  .steps li { margin-bottom: 8px; }
+  .shot { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .shot:last-child { border-bottom: 0; }
+  @media (max-width: 640px) { .shot { grid-template-columns: 1fr; } }
+  .thumb { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; border: 1px solid #cfc9be; }
+  .word { font-family: var(--card-font); font-size: 22px; direction: ltr; text-align: right; margin: 0 0 6px; }
+  .word small { font-size: 13px; color: var(--muted); }
+  .label { font-size: 12px; color: var(--muted); margin: 10px 0 4px; }
+  pre { margin: 0; background: #0f0d0b; color: #efe9df; font-family: var(--card-font); font-size: 13.5px; line-height: 1.5; padding: 10px 12px; border-radius: 5px; white-space: pre-wrap; direction: ltr; text-align: left; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; direction: ltr; justify-content: flex-end; }
+  .tags span { font-family: var(--card-font); font-size: 13px; background: var(--cream); border: 1px solid var(--line); padding: 1px 8px; border-radius: 3px; }
+  a { color: var(--ink); }
+  .small { font-size: 13px; color: var(--muted); }
+  footer { padding: 26px 0 44px; color: var(--muted); font-size: 12.5px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="eyebrow">Holmes Place · ONE · מדריך הפקת וידאו בחינם</p>
+    <h1>איך הופכים את 11 הפריימים לווידאו שנראה אמיתי, בלי לשלם</h1>
+    <p class="lead">יש שתי דרכים חינמיות: וידאו AI מתוך הפריימים, או קטעי סטוק אמיתיים מאתרים חינמיים. בעמוד הזה יש השוואה, המלצה, ולכל שוט גם פרומפט מוכן וגם מילות חיפוש לסטוק.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>ההמלצה שלי</h2>
+    <div class="verdict">
+      <p><strong>סטוק אמיתי כבסיס, ו-AI רק כדי להשלים שוטים חסרים.</strong></p>
+      <p>הסיבה: בגרסאות החינמיות של כלי ה-AI יש בדרך כלל סימן מים, ולפעמים גם איסור על שימוש מסחרי. לכן קשה להשתמש בהן בסרט של מותג. דווקא בקלוז-אפים של פנים, שהם לב הסרט, AI עדיין נחשף. סטוק הוא צילום אמיתי, ברזולוציה גבוהה, ומותר לשימוש מסחרי.</p>
+      <p>המחיר: בסטוק כל שוט יהיה עם אישה אחרת. הקונספט עדיין עובד, ואולי אפילו טוב יותר: כל one הוא רגע של מישהי אחרת, וכולם יחד הם <span class="en">One life</span>. כדי שזה ירגיש כמו סרט אחד, כדאי לבחור קטעים עם פנים חלקיות, גב או פרטים, ואני אאחד את הצבע והגריין בעריכה.</p>
+      <p class="small">אם חשוב לך שזו תהיה אותה אישה לאורך כל הסרט, בחר במסלול AI בלבד. הפרומפטים למטה מוכנים לזה.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>שני המסלולים</h2>
+    <div class="routes">
+      <div class="route">
+        <h3>סטוק חינמי</h3>
+        <ul>
+          <li><a href="https://www.pexels.com/videos/">Pexels</a>: חינם, גם לשימוש מסחרי, בלי קרדיט.</li>
+          <li><a href="https://pixabay.com/videos/">Pixabay</a>: חינם, גם לשימוש מסחרי. אסור שיופיעו בקטע לוגואים של מותגים.</li>
+          <li><a href="https://mixkit.co/free-stock-video/">Mixkit</a>: רק קטעים עם <span class="en">Free License</span>. קטעים עם <span class="en">Restricted</span> אסורים בפרסומת.</li>
+          <li><a href="https://coverr.co/stock-video-footage/sauna">Coverr</a>: יש קטעי סאונה, ג'ים וספא. חלק מהקטעים שם הם AI, והם מסומנים.</li>
+        </ul>
+        <p class="pro" style="margin-top:10px">+ צילום אמיתי, 4K, בלי סימן מים</p>
+        <p class="con">− אישה אחרת בכל שוט. האתרים לא מבטיחים אישור מצולם (model release), ולכן בקמפיין ממומן עדיף קטעים בלי פנים מזוהות.</p>
+      </div>
+      <div class="route">
+        <h3>וידאו AI חינמי מתוך הפריימים</h3>
+        <ul>
+          <li><strong>Seedance</strong> (של ByteDance, דרך Dreamina או CapCut): לפי כמה סקירות יש קרדיטים יומיים, בלי סימן מים, ומותר לשימוש מסחרי. זו האפשרות הכי נדיבה, אבל צריך לוודא את התנאים.</li>
+          <li><strong>Kling</strong> (סיני): קרדיטים יומיים, בערך 2 קליפים ביום. בגרסה החינמית יש סימן מים והיא לא מסחרית, אז היא טובה לניסויים.</li>
+          <li><strong>Hailuo</strong> (של MiniMax): תנועה טבעית במיוחד בפנים. המכסה החינמית קטנה, ויש סימן מים.</li>
+          <li><strong>Vidu</strong>: שומר על אותה דמות בין קליפים לפי תמונות רפרנס. גם כאן המכסה החינמית קטנה.</li>
+          <li><strong>Wan 2.2</strong> (של Alibaba, קוד פתוח): חינם, בלי הגבלה ובלי סימן מים, אבל רק אם מריצים אותו בעצמך על מחשב עם כרטיס גרפי חזק.</li>
+        </ul>
+        <p class="pro" style="margin-top:10px">+ אותה אישה בכל השוטים, בדיוק לפי הסטוריבורד</p>
+        <p class="con">− סימני מים, מכסות קטנות (יכול לקחת כמה ימים), ותקלות AI בידיים ובפנים</p>
+      </div>
+    </div>
+    <p class="small" style="margin-top:12px">מצב המכסות והתנאים מבוסס על סקירות מיולי עד ספטמבר 2026, והוא משתנה כל הזמן. לפני פרסום, בדוק את התנאים בדף המחירים של כל כלי.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>תהליך עבודה ב-AI</h2>
+    <ol class="steps">
+      <li><strong>תמונת פתיחה:</strong> פתח את הפריים של השוט ב-Canva (הקישור מופיע בכל שוט למטה), והורד אותו ברזולוציה מלאה.</li>
+      <li><strong>הגדרות:</strong> בכלי שבחרת, בחר <span class="en">Image to Video</span>, העלה את הפריים כתמונה ראשונה, והדבק את הפרומפט באנגלית. אורך 5 שניות, יחס 16:9, באיכות הכי גבוהה שהמכסה החינמית מאפשרת.</li>
+      <li><strong>פרומפט שלילי:</strong> אם הכלי מאפשר, הדבק גם את הפרומפט השלילי.</li>
+      <li><strong>בחירה:</strong> צור 2–3 גרסאות לכל שוט ובחר את הטבעית ביותר. רוב הגרסאות ייפסלו, וזה צפוי.</li>
+      <li><strong>לשלוח אליי:</strong> שלח לי את הקליפים כאן. אני חותך כל אחד ל-3 שניות, מאחד צבע וגריין, מוסיף קרטונים וסגיר, ומוציא גרסאות 16:9 ו-9:16.</li>
+    </ol>
+    <p class="label">פרומפט שלילי (לכל השוטים)</p>
+    <pre>morphing, distorted face, changing identity, extra fingers, warped hands, flicker, jitter, cartoon, CGI, plastic skin, oversaturated, text, watermark, logo</pre>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>שוט אחרי שוט</h2>
+
+    <div class="shot">
+      <img class="thumb" src="frames/step.jpg" alt="">
+      <div>
+        <p class="word">one step <small>· 01 · כניסה</small></p>
+        <p class="label">פרומפט AI · <a href="https://www.canva.com/M/MAHXdp688PQ">הפריים ב-Canva</a></p>
+        <pre>She walks forward through the glass doors into the club lobby with a natural, confident stride, towel on her shoulder, hair moving slightly. The camera slowly tracks backward at hip height. Realistic human motion, soft morning light, documentary realism, 24fps.</pre>
+        <p class="label">חיפוש סטוק</p>
+        <div class="tags"><span>woman walking into gym</span><span>gym bag walking</span><span>woman entering building morning</span></div>
+      </div>
+    </div>
+
+    <div class="shot">
+      <img class="thumb" src="frames/effort.jpg" alt="">
+      <div>
+        <p class="word">one effort <small>· 02 · חדר כושר</small></p>
+        <p class="label">פרומפט AI · <a href="https://www.canva.com/M/MAHXdn3KBCg">הפריים ב-Canva</a></p>
+        <pre>She lifts the barbell from the floor in one slow, controlled deadlift, muscles tensing, jaw clenched, a sharp exhale at the top. Almost static camera with a subtle handheld feel. Warm low gym lighting, realistic motion, 24fps.</pre>
+        <p class="label">חיפוש סטוק</p>
+        <div class="tags"><span>woman deadlift</span><span>barbell lift close up</span><span>gym effort slow motion</span></div>
+      </div>
+    </div>
+
+    <div class="shot">
+      <img class="thumb" src="frames/more.jpg" alt="">
+      <div>
+        <p class="word">one more <small>· 03 · חדר כושר</small></p>
+        <p class="label">פרומפט AI · <a href="https://www.canva.com/M/MAHXdqkhK04">הפריים ב-Canva</a></p>
+        <pre>She pushes the dumbbells overhead for one last rep, arms trembling with effort, then slowly lowers them with a breath of relief. Slow push-in toward her face. Moody amber light, sweat on skin, realistic motion, 24fps.</pre>
+        <p class="label">חיפוש סטוק</p>
+        <div class="tags"><span>woman dumbbell shoulder press</span><span>last rep</span><span>woman lifting weights close up</span></div>
+      </div>
+    </div>
+
+    <div class="shot">
+      <img class="thumb" src="frames/rhythm.jpg" alt="">
+      <div>
+        <p class="word">one rhythm <small>· 04 · ספינינג</small></p>
+        <p class="label">פרומפט AI · <a href="https://www.canva.com/M/MAHXdurr7bs">הפריים ב-Canva</a></p>
+        <pre>She pedals hard standing on the spin bike, ponytail swinging to the beat, red club lights pulsing, other riders moving in the soft-focus background. Slight camera sway. Realistic motion, 24fps.</pre>
+        <p class="label">חיפוש סטוק</p>
+        <div class="tags"><span>spinning class</span><span>indoor cycling woman</span><span>spin bike legs</span></div>
+      </div>
+    </div>
+
+    <div class="shot">
+      <img class="thumb" src="frames/stretch.jpg" alt="">
+      <div>
+        <p class="word">one stretch <small>· 05 · סטודיו</small></p>
+        <p class="label">פרומפט AI · <a href="https://www.canva.com/M/MAHXdkseK5A">הפריים ב-Canva</a></p>
+        <pre>She slowly deepens her side stretch, arm reaching further over her head, breathing calmly, sheer white curtains moving softly behind her. Slow lateral dolly. Soft morning daylight, realistic motion, 24fps.</pre>
+        <p class="label">חיפוש סטוק</p>
+        <div class="tags"><span>woman stretching studio</span><span>yoga side stretch</span><span>morning yoga window</span></div>
+      </div>
+    </div>
+
+    <div class="shot">
+      <img class="thumb" src="frames/breath.jpg" alt="">
+      <div>
+        <p class="word">one breath <small>· 06 · פילאטיס</small></p>
+        <p class="label">פרומפט AI · <a href="https://www.canva.com/M/MAHXdr-oDoU">הפריים ב-Canva</a></p>
+        <pre>Eyes closed, she takes one deep, slow breath, chest rising and falling, shoulders softening, a faint smile at the end. Very slow push-in. Soft window light, realistic skin, 24fps.</pre>
+        <p class="label">חיפוש סטוק</p>
+        <div class="tags"><span>woman deep breath</span><span>pilates reformer</span><span>breathing close up</span></div>
+      </div>
+    </div>
+
+    <div class="shot">
+      <img class="thumb" src="frames/splash.jpg" alt="">
+      <div>
+        <p class="word">one lap <small>· 07 · בריכה</small></p>
+        <p class="label">פרומפט AI · <a href="https://www.canva.com/M/MAHXdqz_3KQ">הפריים ב-Canva</a></p>
+        <pre>She swims butterfly stroke toward the camera, water splashing in slow motion, droplets hanging in the air, then her hand reaches the pool wall. Camera at water level. Realistic water physics, 24fps.</pre>
+        <p class="label">חיפוש סטוק</p>
+        <div class="tags"><span>butterfly swimming slow motion</span><span>swimmer underwater</span><span>swimmer touching wall</span></div>
+      </div>
+    </div>
+
+    <div class="shot">
+      <img class="thumb" src="frames/drop.jpg" alt="">
+      <div>
+        <p class="word">one drop <small>· 08 · סאונה</small></p>
+        <p class="label">פרומפט AI · <a href="https://www.canva.com/M/MAHXdkq1WUY">הפריים ב-Canva</a></p>
+        <pre>A single drop of sweat slowly rolls down her temple, steam drifting through warm amber light, her eyelids heavy and relaxed. Macro shot, camera almost still. Realistic skin texture, 24fps.</pre>
+        <p class="label">חיפוש סטוק</p>
+        <div class="tags"><span>sauna steam</span><span>water on sauna stones</span><span>sweat drop close up</span></div>
+      </div>
+    </div>
+
+    <div class="shot">
+      <img class="thumb" src="frames/pause.jpg" alt="">
+      <div>
+        <p class="word">one pause <small>· 09 · ג'קוזי</small></p>
+        <p class="label">פרומפט AI · <a href="https://www.canva.com/M/MAHXdkawKxY">הפריים ב-Canva</a></p>
+        <pre>She rests her head back on the edge of the jacuzzi, eyes closed, completely still, bubbles rising around her and light steam drifting. Camera almost static. Warm soft light, realistic water, 24fps.</pre>
+        <p class="label">חיפוש סטוק</p>
+        <div class="tags"><span>jacuzzi bubbles</span><span>woman relaxing hot tub</span><span>spa whirlpool</span></div>
+      </div>
+    </div>
+
+    <div class="shot">
+      <img class="thumb" src="frames/touch.jpg" alt="">
+      <div>
+        <p class="word">one touch <small>· 10 · ספא</small></p>
+        <p class="label">פרומפט AI · <a href="https://www.canva.com/M/MAHXdif-oGo">הפריים ב-Canva</a></p>
+        <pre>The therapist's hands glide slowly across her shoulders, she exhales and her face softens, candle flames flicker gently. Static camera at table height. Warm candlelight, realistic motion, 24fps.</pre>
+        <p class="label">חיפוש סטוק</p>
+        <div class="tags"><span>spa massage back</span><span>massage hands candles</span><span>woman relaxing spa</span></div>
+      </div>
+    </div>
+
+    <div class="shot">
+      <img class="thumb" src="frames/smile.jpg" alt="">
+      <div>
+        <p class="word">one smile <small>· 11 · בריכה חיצונית</small></p>
+        <p class="label">פרומפט AI · <a href="https://www.canva.com/M/MAHXdrJIKUg">הפריים ב-Canva</a></p>
+        <pre>She turns her head toward the camera and breaks into a genuine, unplanned warm smile, golden sunset light flaring behind her, hair moving in a light breeze. Slow push-in. Realistic skin, 24fps.</pre>
+        <p class="label">חיפוש סטוק</p>
+        <div class="tags"><span>woman smiling sunset pool</span><span>golden hour smile</span><span>woman towel pool</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>מה אני עושה עם מה שתשלח</h2>
+    <p>שלח לי את הקליפים כאן, משני המסלולים או רק מאחד מהם, ואני ארכיב את הסרט:</p>
+    <ul class="steps">
+      <li>חיתוך של כל קליפ לרגע הכי חזק שלו, 3 שניות.</li>
+      <li>תיקון צבע אחיד וגריין, כדי שהקטעים ייראו כמו צילום אחד.</li>
+      <li>קרטונים של one בקאט חד, וסגיר עם הלוגו והסלוגן.</li>
+      <li>גרסאות 16:9, 9:16 ו-30 שניות.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">ONE · Holmes Place · מדריך וידאו · הפריימים נוצרו ב-AI להמחשה. מקורות: <a href="https://wavespeed.ai/blog/posts/best-free-ai-video-generators-2026/">WaveSpeed</a>, <a href="https://whichoneisreal.com/compare/best-free-ai-video/">WhichOneIsReal</a>, <a href="https://www.aitoolsbridge.com/blog/ai-tools-with-free-daily-video-credits-2026">AI Tools Bridge</a>, <a href="https://help.pexels.com/hc/en-us/articles/360042295174-What-is-the-license-of-the-photos-and-videos-on-Pexels">רישיון Pexels</a>, <a href="https://pixabay.com/en/service/license/">רישיון Pixabay</a>, <a href="https://mixkit.co/free-stock-video/">Mixkit</a>, <a href="https://coverr.co/stock-video-footage/sauna">Coverr</a>.</div>
+</footer>
+
+</body>
+</html>

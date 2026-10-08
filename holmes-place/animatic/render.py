@@ -1,6 +1,6 @@
 """Render the ONE animatic (16:9, 25fps) from the storyboard stills.
 
-Each moment: cream card (1s) -> club location (1.4s) -> action frame (1.6s).
+Each moment: cream card (1s) -> action frame (3s) with a slow push-in.
 Then a 6s closer: last frame darkens, logo and slogan fade in.
 Frames are piped straight into ffmpeg.
 """
@@ -15,21 +15,21 @@ CREAM = (247, 244, 239)
 FONT = ImageFont.truetype(str(ROOT / "animatic/outfit-latin-400-normal.woff"), 82)
 SLOGAN_FONT = ImageFont.truetype(str(ROOT / "animatic/outfit-latin-400-normal.woff"), 52)
 
-# word, location image, vertical focus (0 top .. 1 bottom), action image
+# word, action image
 MOMENTS = [
-    ("one step",    "club/b02.jpg", .50, "frames/step.jpg"),
-    ("one effort",  "club/b30.jpg", .50, "frames/effort.jpg"),
-    ("one more",    "club/b22.jpg", .60, "frames/more.jpg"),
-    ("one rhythm",  "club/a01.jpg", .55, "frames/rhythm.jpg"),
-    ("one stretch", "club/a20.jpg", .65, "frames/stretch.jpg"),
-    ("one breath",  "club/a11.jpg", .60, "frames/breath.jpg"),
-    ("one lap",     "club/b00.jpg", .60, "frames/splash.jpg"),
-    ("one drop",    "frames/sauna.jpg", .50, "frames/drop.jpg"),
-    ("one pause",   "club/b41.jpg", .70, "frames/pause.jpg"),
-    ("one touch",   None, 0, "frames/touch.jpg"),
-    ("one smile",   "club/b40.jpg", .70, "frames/smile.jpg"),
+    ("one step",    "frames/step.jpg"),
+    ("one effort",  "frames/effort.jpg"),
+    ("one more",    "frames/more.jpg"),
+    ("one rhythm",  "frames/rhythm.jpg"),
+    ("one stretch", "frames/stretch.jpg"),
+    ("one breath",  "frames/breath.jpg"),
+    ("one lap",     "frames/splash.jpg"),
+    ("one drop",    "frames/drop.jpg"),
+    ("one pause",   "frames/pause.jpg"),
+    ("one touch",   "frames/touch.jpg"),
+    ("one smile",   "frames/smile.jpg"),
 ]
-CARD, LOC, ACT, CLOSER = 25, 35, 40, 150
+CARD, SHOT, CLOSER = 25, 75, 150
 
 rng = np.random.default_rng(7)
 
@@ -75,23 +75,16 @@ def grain(im, amount=3.5):
 
 def frames():
     drifts = [(-.4, .2), (.4, -.2), (0, .3), (-.3, -.2), (.3, .2), (0, -.3)]
-    for i, (word, loc, focus, act) in enumerate(MOMENTS):
+    for i, (word, act) in enumerate(MOMENTS):
         c = np.asarray(card(word))
         for _ in range(CARD):
             yield c
-        act_src = prepare(act)
-        if loc:
-            loc_src = prepare(loc, focus)
-            for f in range(LOC):
-                yield grain(kenburns(loc_src, f / (LOC - 1), .06, drifts[i % 6]))
-            for f in range(ACT):
-                yield grain(kenburns(act_src, f / (ACT - 1), .07, drifts[(i + 3) % 6]))
-        else:
-            for f in range(LOC + ACT):
-                yield grain(kenburns(act_src, f / (LOC + ACT - 1), .12, (.2, .1)))
+        src = prepare(act)
+        for f in range(SHOT):
+            yield grain(kenburns(src, f / (SHOT - 1), .10, drifts[i % 6]))
 
     # Closer: last action frame darkens, logo then slogan fade in, fade to black.
-    bg_src = prepare(MOMENTS[-1][3])
+    bg_src = prepare(MOMENTS[-1][1])
     logo = Image.open(ROOT / "frames/logo.jpg").convert("RGB")
     lw = 230
     logo = logo.resize((lw, round(logo.height * lw / logo.width)), Image.LANCZOS)

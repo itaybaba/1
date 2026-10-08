@@ -48,10 +48,6 @@
   .pair { border: 1px solid #cfc9be; background: #000; display: grid; }
   .card { background: var(--cream); aspect-ratio: 16 / 5; display: grid; place-items: center; font-family: var(--card-font); font-size: clamp(14px, 1.9vw, 19px); color: #111; direction: ltr; }
   .shot { aspect-ratio: 16 / 9; overflow: hidden; position: relative; }
-  .shot .inset { position: absolute; left: 6px; bottom: 6px; width: 40%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border: 2px solid #fff; box-shadow: 0 1px 6px rgba(0,0,0,.45); }
-  .loc-tag { position: absolute; top: 6px; right: 6px; font-size: 10.5px; background: rgba(0,0,0,.62); color: #fff; padding: 0 6px; border-radius: 3px; }
-  .loc-tag.ai { background: var(--red); }
-  .legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: var(--muted); margin: -4px 0 18px; }
   .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .meta { display: flex; align-items: baseline; gap: 8px; margin: 8px 0 4px; }
   .num { font-family: var(--card-font); font-weight: 500; font-size: 15px; }
@@ -92,7 +88,7 @@
 
 <header class="hero">
   <div class="wrap">
-    <p class="eyebrow">Holmes Place · סרטון תדמית · סטוריבורד גרסה 4</p>
+    <p class="eyebrow">Holmes Place · סרטון תדמית · סטוריבורד גרסה 5</p>
     <h1>one step. one effort. one breath… <span class="life">One life.</span></h1>
     <p class="logline">רצף של רגעים קטנים מתוך החוויה במועדון. כל רגע מקבל קרטון של "one" ועוד מילה אחת מעולמות התוכן של הולמס פלייס, ואחריו השוט שלו. בסוף כל הרגעים מתחברים לסגיר: הלוגו ו-<span class="en">One life. Live it well.</span></p>
     <ul class="specs">
@@ -118,81 +114,80 @@
 <section>
   <div class="wrap">
     <h2>סטוריבורד</h2>
-    <p class="legend"><span>התמונה הגדולה: הלוקיישן האמיתי מהמועדון</span><span>התמונה הקטנה בפינה: הפעולה והדמות (AI, להמחשה)</span><span>תגית אדומה: לוקיישן שנוצר ב-AI</span></p>
     <div class="board">
 
       <article class="panel">
-        <div class="pair"><div class="card">one step</div><div class="shot"><img src="club/b02.jpg" alt="Club location" style="object-position:center"><img class="inset" src="frames/step.jpg" alt="Walking into the club lobby"><span class="loc-tag">מהמועדון</span></div></div>
-        <div class="meta"><span class="num">01</span><span class="tc">00:00–00:04</span><span class="world">חדר הלבשה</span></div>
-        <p class="desc">צעד ראשון במסדרון הלוקרים. אור חם, עץ ושחור, מגבת על הכתף.</p>
+        <div class="pair"><div class="card">one step</div><div class="shot"><img src="frames/step.jpg" alt="Walking into the club lobby"></div></div>
+        <div class="meta"><span class="num">01</span><span class="tc">00:00–00:04</span><span class="world">כניסה</span></div>
+        <p class="desc">צעד ראשון פנימה דרך דלתות הזכוכית. אור בוקר וירוק מבחוץ, מגבת על הכתף.</p>
         <p class="cam">מצלמה נמוכה על הצעד · צעד אחד, תו פסנתר ראשון</p>
       </article>
 
       <article class="panel">
-        <div class="pair"><div class="card">one effort</div><div class="shot"><img src="club/b30.jpg" alt="Club location" style="object-position:center"><img class="inset" src="frames/effort.jpg" alt="Deadlift in the gym"><span class="loc-tag">מהמועדון</span></div></div>
+        <div class="pair"><div class="card">one effort</div><div class="shot"><img src="frames/effort.jpg" alt="Deadlift in the gym"></div></div>
         <div class="meta"><span class="num">02</span><span class="tc">00:04–00:08</span><span class="world">חדר כושר</span></div>
         <p class="desc">דדליפט. המוט עולה מהרצפה, הלסת קפוצה, כל הגוף עובד.</p>
         <p class="cam">פוש-אין איטי · מתכת, נשיפה</p>
       </article>
 
       <article class="panel">
-        <div class="pair"><div class="card">one more</div><div class="shot"><img src="club/b22.jpg" alt="Club location" style="object-position:center 60%"><img class="inset" src="frames/more.jpg" alt="Last rep of a shoulder press"><span class="loc-tag">מהמועדון</span></div></div>
+        <div class="pair"><div class="card">one more</div><div class="shot"><img src="frames/more.jpg" alt="Last rep of a shoulder press"></div></div>
         <div class="meta"><span class="num">03</span><span class="tc">00:08–00:12</span><span class="world">חדר כושר</span></div>
         <p class="desc">החזרה האחרונה. הידיים רועדות, והיא בכל זאת מסיימת.</p>
         <p class="cam">קלוז-אפ, 85 מ"מ · נשיפה מבין השיניים</p>
       </article>
 
       <article class="panel">
-        <div class="pair"><div class="card">one rhythm</div><div class="shot"><img src="club/a01.jpg" alt="Club location" style="object-position:center 55%"><img class="inset" src="frames/rhythm.jpg" alt="Spinning class"><span class="loc-tag">מהמועדון</span></div></div>
+        <div class="pair"><div class="card">one rhythm</div><div class="shot"><img src="frames/rhythm.jpg" alt="Spinning class"></div></div>
         <div class="meta"><span class="num">04</span><span class="tc">00:12–00:16</span><span class="world">סטודיו ספינינג</span></div>
         <p class="desc">שיעור ספינינג באור אדום. היא רוכבת בעמידה, חיוך של מאמץ.</p>
         <p class="cam">שאטר איטי לטשטוש תנועה · הביט נכנס</p>
       </article>
 
       <article class="panel">
-        <div class="pair"><div class="card">one stretch</div><div class="shot"><img src="club/a20.jpg" alt="Club location" style="object-position:center 65%"><img class="inset" src="frames/stretch.jpg" alt="Side stretch in a bright studio"><span class="loc-tag">מהמועדון</span></div></div>
+        <div class="pair"><div class="card">one stretch</div><div class="shot"><img src="frames/stretch.jpg" alt="Side stretch in a bright studio"></div></div>
         <div class="meta"><span class="num">05</span><span class="tc">00:16–00:20</span><span class="world">סטודיו</span></div>
         <p class="desc">אור בוקר מבעד לוילון לבן. מתיחה צידית איטית, עוד קצת יותר מאתמול.</p>
         <p class="cam">דולי צד איטי · רצפת עץ, שקט</p>
       </article>
 
       <article class="panel">
-        <div class="pair"><div class="card">one breath</div><div class="shot"><img src="club/a11.jpg" alt="Club location" style="object-position:center 60%"><img class="inset" src="frames/breath.jpg" alt="Breathing on a pilates reformer"><span class="loc-tag">מהמועדון</span></div></div>
+        <div class="pair"><div class="card">one breath</div><div class="shot"><img src="frames/breath.jpg" alt="Breathing on a pilates reformer"></div></div>
         <div class="meta"><span class="num">06</span><span class="tc">00:20–00:24</span><span class="world">פילאטיס</span></div>
         <p class="desc">על מכשיר הרפורמר, עיניים עצומות, נשימה אחת ארוכה.</p>
         <p class="cam">פרופיל קרוב, עומק שדה רדוד · רק הנשימה</p>
       </article>
 
       <article class="panel">
-        <div class="pair"><div class="card">one lap</div><div class="shot"><img src="club/b00.jpg" alt="Club location" style="object-position:center 60%"><img class="inset" src="frames/splash.jpg" alt="Butterfly stroke in the indoor pool"><span class="loc-tag">מהמועדון</span></div></div>
+        <div class="pair"><div class="card">one lap</div><div class="shot"><img src="frames/splash.jpg" alt="Butterfly stroke in the indoor pool"></div></div>
         <div class="meta"><span class="num">07</span><span class="tc">00:24–00:28</span><span class="world">בריכה</span></div>
         <p class="desc">אורך בריכה אחד בשחיית פרפר לכיוון המצלמה, טיפות קופאות באוויר. בסוף היד נוגעת בקיר.</p>
         <p class="cam">בגובה המים, הילוך איטי · התזה, ואז שקט מתחת למים</p>
       </article>
 
       <article class="panel">
-        <div class="pair"><div class="card">one drop</div><div class="shot"><img src="frames/sauna.jpg" alt="Sauna interior"><img class="inset" src="frames/drop.jpg" alt="Sweat drop in the sauna"><span class="loc-tag ai">AI</span></div></div>
+        <div class="pair"><div class="card">one drop</div><div class="shot"><img src="frames/drop.jpg" alt="Sweat drop in the sauna"></div></div>
         <div class="meta"><span class="num">08</span><span class="tc">00:28–00:32</span><span class="world">סאונה</span></div>
         <p class="desc">אדים, אור ענבר, טיפת זיעה אחת מתגלגלת על הרקה.</p>
         <p class="cam">מאקרו · מים על האבנים, שששש</p>
       </article>
 
       <article class="panel">
-        <div class="pair"><div class="card">one pause</div><div class="shot"><img src="club/b41.jpg" alt="Club location" style="object-position:center 70%"><img class="inset" src="frames/pause.jpg" alt="Resting in the jacuzzi"><span class="loc-tag">מהמועדון</span></div></div>
+        <div class="pair"><div class="card">one pause</div><div class="shot"><img src="frames/pause.jpg" alt="Resting in the jacuzzi"></div></div>
         <div class="meta"><span class="num">09</span><span class="tc">00:32–00:36</span><span class="world">ג'קוזי</span></div>
         <p class="desc">ראש לאחור על שפת הג'קוזי, עיניים עצומות. בפעם הראשונה היא לא עושה כלום.</p>
         <p class="cam">כמעט סטטי · בעבוע, המוזיקה נסוגה</p>
       </article>
 
       <article class="panel">
-        <div class="pair"><div class="card">one touch</div><div class="shot"><img src="frames/touch.jpg" alt="Massage in the spa"><span class="loc-tag ai">AI</span></div></div>
+        <div class="pair"><div class="card">one touch</div><div class="shot"><img src="frames/touch.jpg" alt="Massage in the spa"></div></div>
         <div class="meta"><span class="num">10</span><span class="tc">00:36–00:40</span><span class="world">ספא</span></div>
         <p class="desc">עיסוי באור נרות. ידיים על הגב, והפנים שלה משתחררות.</p>
         <p class="cam">בגובה המיטה · המוזיקה מתחילה לבנות</p>
       </article>
 
       <article class="panel">
-        <div class="pair"><div class="card">one smile</div><div class="shot"><img src="club/b40.jpg" alt="Club location" style="object-position:center 70%"><img class="inset" src="frames/smile.jpg" alt="Smile by the outdoor pool at sunset"><span class="loc-tag">מהמועדון</span></div></div>
+        <div class="pair"><div class="card">one smile</div><div class="shot"><img src="frames/smile.jpg" alt="Smile by the outdoor pool at sunset"></div></div>
         <div class="meta"><span class="num">11</span><span class="tc">00:40–00:44</span><span class="world">בריכה חיצונית</span></div>
         <p class="desc">שעת זהב ליד הבריכה החיצונית, מגבת לבנה. היא מסתובבת למצלמה וחיוך אמיתי עולה.</p>
         <p class="cam">85 מ"מ, אור אחורי זהוב · שיא, ואז שקט</p>
@@ -214,8 +209,6 @@
       <p><strong>סופר:</strong> <span class="en">One life. Live it well.</span></p>
       <p><strong>קריינות:</strong> <span class="en"><em>“One life. Live it well.”</em></span></p>
       <p><strong>סאונד:</strong> תו פסנתר אחרון, ואז שקט.</p>
-      <p><strong>אופציה:</strong> רגע לפני הלוגו, שוט קצר של הקיר בחדר הכושר שעליו כתוב <span class="en">One Life. Live it Well.</span> הסלוגן כבר קיים במועדון, והוא מחבר את הסרט למקום.</p>
-      <div class="endcard" style="max-width:320px"><img class="bg" src="club/b31.jpg" alt="Gym wall with the slogan" style="filter:none;object-position:center top"></div>
     </div>
   </div>
 </section>
@@ -259,7 +252,7 @@
 </section>
 
 <footer>
-  <div class="wrap">ONE · Holmes Place · סטוריבורד גרסה 4 · הלוקיישנים מתמונות המועדונים. הדמות והפעולה בפינה נוצרו ב-AI להמחשה בלבד.</div>
+  <div class="wrap">ONE · Holmes Place · סטוריבורד גרסה 5 · הפריימים נוצרו ב-AI להמחשה בלבד.</div>
 </footer>
 
 </body>
