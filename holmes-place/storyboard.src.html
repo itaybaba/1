@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ONE · סטוריבורד</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F7F4EF;
+    --paper: #FBFAF7;
+    --ink: #141210;
+    --muted: #6f6a63;
+    --line: #e2ddd4;
+    --red: #D0494A;
+    --amber: #b8834a;
+    --card-font: "Outfit", "Inter", "Helvetica Neue", sans-serif;
+    --he-font: "Heebo", "Assistant", "Arial Hebrew", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--paper); color: var(--ink); }
+  body { font-family: var(--he-font); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+  .en { font-family: var(--card-font); direction: ltr; unicode-bidi: isolate; }
+
+  /* Hero */
+  header.hero { background: #0f0d0b; color: #f3efe8; padding: 56px 0 44px; }
+  .brandmark { width: 40px; height: 6px; background: var(--red); display: grid; place-items: center; margin-bottom: 28px; }
+  .brandmark span { font-family: Georgia, "Times New Roman", serif; color: #fff; font-size: 10px; letter-spacing: .14em; line-height: 1.15; text-align: center; }
+  .eyebrow { font-size: 13px; letter-spacing: .08em; color: #b9b1a6; margin: 0 0 8px; }
+  h1 { font-family: var(--card-font); font-weight: 400; font-size: clamp(56px, 12vw, 120px); line-height: .95; margin: 0 0 18px; letter-spacing: -.02em; direction: ltr; text-align: right; }
+  .logline { font-size: clamp(18px, 2.4vw, 22px); font-weight: 300; max-width: 720px; margin: 0 0 28px; color: #e9e3da; }
+  .specs { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; list-style: none; }
+  .specs li { border: 1px solid #3a352f; border-radius: 999px; padding: 4px 12px; font-size: 13px; color: #cfc7bb; }
+
+  section { padding: 48px 0; border-bottom: 1px solid var(--line); }
+  h2 { font-size: 13px; letter-spacing: .1em; font-weight: 500; color: var(--muted); margin: 0 0 18px; }
+  h3 { font-size: 22px; font-weight: 500; margin: 0 0 10px; line-height: 1.3; }
+  p { margin: 0 0 12px; }
+
+  .idea-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; }
+  @media (max-width: 760px) { .idea-grid { grid-template-columns: 1fr; gap: 28px; } }
+  .quote { font-family: var(--card-font); font-size: 26px; font-weight: 300; line-height: 1.35; direction: ltr; text-align: left; border-left: 3px solid var(--red); padding-left: 16px; margin: 0 0 20px; }
+
+  /* Arc */
+  .arc { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 8px; }
+  .arc span { background: var(--cream); border: 1px solid var(--line); padding: 4px 10px; border-radius: 4px; font-size: 14px; }
+  .arc i { color: var(--muted); font-style: normal; }
+
+  /* Shots */
+  .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 24px; }
+  @media (max-width: 860px) { .shots { grid-template-columns: 1fr; } }
+  .shot { background: #fff; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; display: flex; flex-direction: column; }
+  .shot.wide { grid-column: 1 / -1; }
+  .shot-head { display: flex; align-items: baseline; gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  .num { font-family: var(--card-font); font-size: 22px; font-weight: 500; }
+  .tc { font-family: var(--card-font); font-size: 13px; color: var(--muted); direction: ltr; }
+  .loc { margin-inline-start: auto; font-size: 13px; background: var(--cream); padding: 2px 10px; border-radius: 999px; white-space: nowrap; }
+
+  .frames { display: grid; grid-template-columns: 1fr 2.2fr; gap: 2px; background: #000; direction: ltr; }
+  .frames.solo { grid-template-columns: 1fr; }
+  .frame { aspect-ratio: 16 / 9; position: relative; overflow: hidden; background: #0d0c0b; }
+  .frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .frame.strip img { object-fit: contain; }
+  .frame svg { width: 100%; height: 100%; display: block; }
+  .card { background: var(--cream); display: grid; place-items: center; font-family: var(--card-font); font-size: clamp(13px, 1.7vw, 18px); color: #111; height: 100%; aspect-ratio: auto; }
+  .frames .card { aspect-ratio: auto; }
+  .tag { position: absolute; bottom: 6px; right: 6px; font-family: var(--he-font); font-size: 11px; background: rgba(0,0,0,.6); color: #fff; padding: 1px 7px; border-radius: 3px; direction: rtl; }
+  .tag.new { background: var(--red); }
+
+  .shot-body { padding: 14px; display: grid; gap: 10px; font-size: 15px; }
+  .row { display: grid; grid-template-columns: 64px 1fr; gap: 8px; }
+  .row b { font-weight: 500; color: var(--muted); font-size: 13px; padding-top: 2px; }
+  .vo { font-family: var(--card-font); direction: ltr; text-align: left; font-style: italic; background: var(--cream); padding: 6px 10px; border-radius: 4px; }
+  .vo.none { font-style: normal; color: var(--muted); font-family: var(--he-font); direction: rtl; text-align: right; background: none; padding: 0; }
+
+  /* Montage mini-grid */
+  .mini { display: grid; grid-template-columns: repeat(6, 1fr); gap: 2px; background: #000; direction: ltr; }
+  .mini > div { aspect-ratio: 9 / 10; overflow: hidden; }
+  .mini img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .mini .card { font-size: clamp(10px, 1.3vw, 14px); }
+  @media (max-width: 560px) { .mini { grid-template-columns: repeat(3, 1fr); } }
+
+  /* End card */
+  .endcard { position: relative; aspect-ratio: 16 / 9; flex: none; overflow: hidden; background: #000; }
+  .endcard img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* Script */
+  .script { direction: ltr; text-align: left; font-family: var(--card-font); background: #0f0d0b; color: #efe9df; border-radius: 6px; padding: 28px 24px; }
+  .script ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .script li { display: grid; grid-template-columns: 92px 1fr; gap: 12px; font-size: 20px; font-weight: 300; line-height: 1.35; }
+  .script .t { font-size: 13px; color: #8f877c; padding-top: 5px; }
+  .script .final { color: #fff; font-weight: 400; }
+  .script .final em { color: var(--red); font-style: normal; }
+  @media (max-width: 560px) { .script li { grid-template-columns: 1fr; gap: 2px; font-size: 18px; } }
+  .count { direction: rtl; text-align: right; font-family: var(--he-font); color: #8f877c; font-size: 13px; margin-top: 20px; }
+
+  .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  @media (max-width: 860px) { .cols { grid-template-columns: 1fr; } }
+  .cols h3 { font-size: 18px; }
+  .swatches { display: flex; gap: 8px; margin-top: 10px; }
+  .sw { width: 44px; height: 44px; border-radius: 4px; border: 1px solid var(--line); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  td, th { text-align: right; padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-weight: 500; color: var(--muted); font-size: 13px; }
+
+  .asks { counter-reset: q; list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+  .asks li { counter-increment: q; display: grid; grid-template-columns: 32px 1fr; gap: 10px; }
+  .asks li::before { content: counter(q); font-family: var(--card-font); width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; font-size: 14px; }
+  footer { padding: 32px 0 56px; color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brandmark"></div>
+    <p class="eyebrow">Holmes Place · סרטון תדמית · סטוריבורד גרסה 1</p>
+    <h1>ONE.</h1>
+    <p class="logline">חיים אחד לא נבנים מרגע גדול אחד. הם נבנים מהרבה רגעים קטנים של "אחד". סרט על אישה אחת, ביקור אחד במועדון, והרגעים שהיא כמעט פספסה.</p>
+    <ul class="specs">
+      <li>60 שניות (מאסטר)</li>
+      <li>16:9 + 9:16</li>
+      <li>קריינות באנגלית</li>
+      <li>12 שוטים · 9 קרטונים</li>
+      <li>סגיר: לוגו + One life. Live it well.</li>
+    </ul>
+  </div>
+</header>
+
+<section>
+  <div class="wrap idea-grid">
+    <div>
+      <h2>הרעיון</h2>
+      <p class="quote">One life isn't one big moment.<br>It's made of ones.</p>
+      <p>הסלוגן אומר <span class="en">One life</span>. אנחנו לוקחים את המילה <span class="en">one</span> ומפרקים אותה לרגעים קטנים מתוך חוויית האימון: עוד חזרה אחת, נשימה אחת, קפיצה אחת למים, טיפת זיעה אחת בסאונה. כל רגע מקבל קרטון משלו. בסוף כל הרגעים מתחברים למשפט אחד: <span class="en">One life. Live it well.</span></p>
+      <p>הקריינות לא מקריאה את הקרטונים. היא מונולוג פנימי, שקט, של האישה שבסרט. הקרטונים אומרים <em>מה</em> קרה. הקול אומר <em>מה זה אומר לה</em>.</p>
+    </div>
+    <div>
+      <h2>המסע הרגשי</h2>
+      <p>הסרט עובר מהמאמץ אל השקט, ומהגוף אל עצמה:</p>
+      <div class="arc">
+        <span>מאמץ</span><i>←</i><span>זרימה</span><i>←</i><span>מים</span><i>←</i><span>חום</span><i>←</i><span>שחרור</span><i>←</i><span>טיפוח</span><i>←</i><span>היא</span>
+      </div>
+      <h3 style="margin-top:24px">המראה כמסגרת</h3>
+      <p>הסרט נפתח ונסגר <strong>באותה מראה</strong> בחדר ההלבשה, באותה קומפוזיציה. בפתיחה: אור קר, מבט עייף ומהסס. בסוף: אור חם, לחיים סמוקות, חיוך קטן. לא מסבירים את השינוי. הצופה מרגיש אותו.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>סטוריבורד · שוט אחרי שוט</h2>
+    <div class="shots">
+
+      <!-- 01 -->
+      <article class="shot">
+        <div class="shot-head"><span class="num">01</span><span class="tc">00:00–00:05</span><span class="loc">חדר הלבשה · לפני</span></div>
+        <div class="frames solo">
+          <div class="frame">
+            <svg viewBox="0 0 160 90" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#36414f"/><stop offset="1" stop-color="#151a21"/></linearGradient></defs>
+              <rect width="160" height="90" fill="url(#g1)"/>
+              <g stroke="#4b5868" stroke-width=".6"><line x1="8" y1="6" x2="8" y2="90"/><line x1="22" y1="6" x2="22" y2="90"/><line x1="138" y1="6" x2="138" y2="90"/><line x1="152" y1="6" x2="152" y2="90"/></g>
+              <rect x="44" y="6" width="72" height="80" fill="#202833" stroke="#8a9bb0" stroke-width=".8"/>
+              <ellipse cx="80" cy="36" rx="9" ry="11" fill="#5a6a7f"/>
+              <path d="M58 86 C60 60 70 52 80 52 C90 52 100 60 102 86 Z" fill="#4a586b"/>
+              <path d="M71 30 C66 22 70 14 76 14" stroke="#7d8da2" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+              <path d="M89 30 C94 22 90 14 84 14" stroke="#7d8da2" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+            </svg>
+            <span class="tag new">שוט חדש לצילום</span>
+          </div>
+        </div>
+        <div class="shot-body">
+          <div class="row"><b>תמונה</b><span>שעת בוקר מוקדמת, אור קר וכחלחל. היא מול המראה, אוספת את השיער, ומביטה בעצמה רגע ארוך מדי. עייפה, לא בטוחה שבא לה.</span></div>
+          <div class="row"><b>מצלמה</b><span>קלוז-אפ דרך ההשתקפות, 85 מ"מ, כמעט סטטי.</span></div>
+          <div class="row"><b>סאונד</b><span>שקט. נשימה אחת. דלת לוקר נסגרת רחוק.</span></div>
+          <div class="row"><b>קריינות</b><span class="vo">“Everyone tells you… you only get one life.”</span></div>
+        </div>
+      </article>
+
+      <!-- 02 -->
+      <article class="shot">
+        <div class="shot-head"><span class="num">02</span><span class="tc">00:05–00:09</span><span class="loc">כניסה לחדר הכושר</span></div>
+        <div class="frames">
+          <div class="frame card">one step</div>
+          <div class="frame">
+            <svg viewBox="0 0 160 90" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="160" height="90" fill="#16110d"/>
+              <g stroke="#3a2d22" stroke-width=".6"><line x1="80" y1="40" x2="0" y2="90"/><line x1="80" y1="40" x2="40" y2="90"/><line x1="80" y1="40" x2="120" y2="90"/><line x1="80" y1="40" x2="160" y2="90"/><line x1="0" y1="62" x2="160" y2="62"/><line x1="0" y1="74" x2="160" y2="74"/></g>
+              <g stroke="#e0a868" stroke-width="1.4" opacity=".9"><line x1="34" y1="6" x2="34" y2="54"/><line x1="56" y1="14" x2="56" y2="46"/><line x1="104" y1="14" x2="104" y2="46"/><line x1="126" y1="6" x2="126" y2="54"/></g>
+              <g stroke="#e0a868" stroke-width="5" opacity=".12"><line x1="34" y1="6" x2="34" y2="54"/><line x1="126" y1="6" x2="126" y2="54"/></g>
+              <path d="M62 90 C62 80 68 76 78 76 L98 78 C104 79 106 84 104 90 Z" fill="#2a2420" stroke="#5b4a3c" stroke-width=".6"/>
+            </svg>
+            <span class="tag new">שוט חדש לצילום</span>
+          </div>
+        </div>
+        <div class="shot-body">
+          <div class="row"><b>תמונה</b><span>קאט חד לקרטון. ואז נעל אחת חוצה את הסף אל חדר כושר חשוך, ופסי האור החמים בקירות נדלקים אחד אחרי השני.</span></div>
+          <div class="row"><b>מצלמה</b><span>בגובה הרצפה, טרקינג איטי אחרי הצעד.</span></div>
+          <div class="row"><b>סאונד</b><span>צעד אחד מהדהד. תו הפסנתר הראשון.</span></div>
+          <div class="row"><b>קריינות</b><span class="vo none">ללא</span></div>
+        </div>
+      </article>
+
+      <!-- 03 -->
+      <article class="shot">
+        <div class="shot-head"><span class="num">03</span><span class="tc">00:09–00:15</span><span class="loc">חדר כושר</span></div>
+        <div class="frames">
+          <div class="frame card">one more</div>
+          <div class="frame"><img src="frames/curl.jpg" alt="Dumbbell curl in a dark gym"><span class="tag">מהחומרים שלך</span></div>
+        </div>
+        <div class="shot-body">
+          <div class="row"><b>תמונה</b><span>החזרה האחרונה. היד רועדת, הפנים מרוכזות, היא לא מוותרת. המשקולת יורדת בדיוק כשהמוזיקה נושמת.</span></div>
+          <div class="row"><b>מצלמה</b><span>פוש-אין איטי מאוד אל הפנים.</span></div>
+          <div class="row"><b>סאונד</b><span>נקישת משקולת, נשיפה מבין השיניים.</span></div>
+          <div class="row"><b>קריינות</b><span class="vo">“I used to think that meant… something big.”</span></div>
+        </div>
+      </article>
+
+      <!-- 04 -->
+      <article class="shot">
+        <div class="shot-head"><span class="num">04</span><span class="tc">00:15–00:19</span><span class="loc">אחרי הסט</span></div>
+        <div class="frames">
+          <div class="frame card">one breath</div>
+          <div class="frame strip"><img src="frames/breath-partial.jpg" alt="Exhale after a set, hands behind head"><span class="tag">מהחומרים שלך</span></div>
+        </div>
+        <div class="shot-body">
+          <div class="row"><b>תמונה</b><span>ידיים מאחורי הראש, זיעה, נשיפה ארוכה. הרגע שבו הגוף מבין שהוא הצליח.</span></div>
+          <div class="row"><b>מצלמה</b><span>קלוז-אפ מהצד, הילוך איטי.</span></div>
+          <div class="row"><b>סאונד</b><span>רק הנשיפה. כל השאר נעלם.</span></div>
+          <div class="row"><b>קריינות</b><span class="vo none">ללא, רק הנשימה</span></div>
+        </div>
+      </article>
+
+      <!-- 05 -->
+      <article class="shot">
+        <div class="shot-head"><span class="num">05</span><span class="tc">00:19–00:24</span><span class="loc">סטודיו</span></div>
+        <div class="frames">
+          <div class="frame card">one stretch</div>
+          <div class="frame"><img src="frames/stretch.jpg" alt="Side stretch in a sunlit studio"><span class="tag">מהחומרים שלך</span></div>
+        </div>
+        <div class="shot-body">
+          <div class="row"><b>תמונה</b><span>אור בוקר רך מחלון עם וילון לבן. מתיחה צידית איטית, עוד סנטימטר אחד יותר מאתמול. מבט קטן ושקט למצלמה.</span></div>
+          <div class="row"><b>מצלמה</b><span>דולי צד איטי שעוקב אחרי קו היד.</span></div>
+          <div class="row"><b>סאונד</b><span>חריקה עדינה של רצפת עץ, הפסנתר ממשיך.</span></div>
+          <div class="row"><b>קריינות</b><span class="vo">“Turns out… it's made of small things.”</span></div>
+        </div>
+      </article>
+
+      <!-- 06 -->
+      <article class="shot">
+        <div class="shot-head"><span class="num">06</span><span class="tc">00:24–00:29</span><span class="loc">בריכה</span></div>
+        <div class="frames">
+          <div class="frame card">one splash</div>
+          <div class="frame"><img src="frames/swim.jpg" alt="Butterfly stroke with frozen water drops"><span class="tag">מהחומרים שלך</span></div>
+        </div>
+        <div class="shot-body">
+          <div class="row"><b>תמונה</b><span>פרפר, טיפות קופאות באוויר. ואז קאט אל מתחת למים: בועות, קרני אור, שקט מוחלט.</span></div>
+          <div class="row"><b>מצלמה</b><span>בגובה פני המים בהילוך איטי מאוד. שוט שני מתחת למים.</span></div>
+          <div class="row"><b>סאונד</b><span>התזה חזקה, ואז כל הסאונד נבלע כמו מתחת למים.</span></div>
+          <div class="row"><b>קריינות</b><span class="vo">“Moments you almost skip.”</span></div>
+        </div>
+      </article>
+
+      <!-- 07 -->
+      <article class="shot">
+        <div class="shot-head"><span class="num">07</span><span class="tc">00:29–00:34</span><span class="loc">סאונה</span></div>
+        <div class="frames">
+          <div class="frame card">one drop</div>
+          <div class="frame strip"><img src="frames/drop-partial.jpg" alt="Extreme close-up, sweat drop in amber light"><span class="tag">מהחומרים שלך</span></div>
+        </div>
+        <div class="shot-body">
+          <div class="row"><b>תמונה</b><span>מצקת מים נשפכת על האבנים, אדים עולים. אקסטרים קלוז-אפ: טיפת זיעה אחת מתגלגלת על הרקה. העיניים חצי עצומות.</span></div>
+          <div class="row"><b>מצלמה</b><span>מאקרו, פוקוס רך, אור ענבר.</span></div>
+          <div class="row"><b>סאונד</b><span>השששש של האדים על האבנים.</span></div>
+          <div class="row"><b>קריינות</b><span class="vo">“The ones no one else sees.”</span></div>
+        </div>
+      </article>
+
+      <!-- 08 -->
+      <article class="shot">
+        <div class="shot-head"><span class="num">08</span><span class="tc">00:34–00:40</span><span class="loc">ג'קוזי</span></div>
+        <div class="frames">
+          <div class="frame card">one pause</div>
+          <div class="frame">
+            <svg viewBox="0 0 160 90" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <defs><radialGradient id="g8" cx=".5" cy=".55" r=".7"><stop offset="0" stop-color="#2e6a72"/><stop offset=".7" stop-color="#143238"/><stop offset="1" stop-color="#0a1719"/></radialGradient></defs>
+              <rect width="160" height="90" fill="url(#g8)"/>
+              <circle cx="80" cy="52" r="58" fill="none" stroke="#6a9aa0" stroke-width=".8" opacity=".5"/>
+              <g fill="#cfe6e8" opacity=".55">
+                <circle cx="52" cy="58" r="1.2"/><circle cx="60" cy="66" r=".8"/><circle cx="70" cy="60" r="1"/><circle cx="96" cy="62" r="1.3"/><circle cx="104" cy="70" r=".9"/><circle cx="112" cy="56" r="1"/><circle cx="88" cy="74" r="1.1"/><circle cx="66" cy="76" r=".7"/><circle cx="120" cy="66" r=".8"/><circle cx="44" cy="70" r="1"/><circle cx="78" cy="68" r=".6"/><circle cx="100" cy="80" r=".9"/>
+              </g>
+              <path d="M58 6 C60 22 70 30 80 30 C90 30 100 22 102 6 Z" fill="#2a1f19"/>
+              <ellipse cx="80" cy="36" rx="10" ry="12" fill="#a57b5e"/>
+              <path d="M60 50 C66 44 74 46 80 46 C86 46 94 44 100 50" stroke="#a57b5e" stroke-width="4" fill="none" stroke-linecap="round" opacity=".8"/>
+            </svg>
+            <span class="tag new">שוט חדש לצילום</span>
+          </div>
+        </div>
+        <div class="shot-body">
+          <div class="row"><b>תמונה</b><span>שוט מלמעלה. היא נשענת לאחור, ראש על שפת הג'קוזי, עיניים עצומות, בועות ואדים קלים סביבה. בפעם הראשונה בסרט היא לא עושה כלום.</span></div>
+          <div class="row"><b>מצלמה</b><span>טופ שוט סטטי שמתחיל להסתובב לאט מאוד.</span></div>
+          <div class="row"><b>סאונד</b><span>בעבוע רך. המוזיקה נסוגה.</span></div>
+          <div class="row"><b>קריינות</b><span class="vo">“The ones that are just for you.”</span></div>
+        </div>
+      </article>
+
+      <!-- 09 -->
+      <article class="shot">
+        <div class="shot-head"><span class="num">09</span><span class="tc">00:40–00:45</span><span class="loc">ספא</span></div>
+        <div class="frames">
+          <div class="frame card">one smile</div>
+          <div class="frame strip"><img src="frames/massage-partial.jpg" alt="Massage, she smiles at camera"><span class="tag">מהחומרים שלך</span></div>
+        </div>
+        <div class="shot-body">
+          <div class="row"><b>תמונה</b><span>עיסוי, אור נרות. היא פוקחת עיניים ומחייכת אל המצלמה, חיוך שהיא לא תכננה. הרגע הכי אינטימי בסרט.</span></div>
+          <div class="row"><b>מצלמה</b><span>בגובה העיניים על המיטה, עומק שדה רדוד.</span></div>
+          <div class="row"><b>סאונד</b><span>המוזיקה חוזרת ומתחילה לבנות.</span></div>
+          <div class="row"><b>קריינות</b><span class="vo">“Add them up…”</span></div>
+        </div>
+      </article>
+
+      <!-- 10 -->
+      <article class="shot">
+        <div class="shot-head"><span class="num">10</span><span class="tc">00:45–00:50</span><span class="loc">מונטאז' · the ones</span></div>
+        <div class="mini">
+          <div class="card">one more</div>
+          <div><img src="frames/swim.jpg" alt=""></div>
+          <div class="card">one drop</div>
+          <div><img src="frames/curl.jpg" alt=""></div>
+          <div class="card">one step</div>
+          <div><img src="frames/stretch.jpg" alt=""></div>
+        </div>
+        <div class="shot-body">
+          <div class="row"><b>תמונה</b><span>כל הקרטונים חוזרים בקצב שהולך ומאיץ, 6–8 פריימים כל אחד, לסירוגין עם רגעים קטנים: מפתח לוקר, משקפת שחייה נסגרת, מגבת על הכתפיים, צחוק עם חברה בלובי, כוס מים.</span></div>
+          <div class="row"><b>מצלמה</b><span>קאטים חדים על הביט.</span></div>
+          <div class="row"><b>סאונד</b><span>שיא מוזיקלי, ואז קאט לשקט מוחלט.</span></div>
+          <div class="row"><b>קריינות</b><span class="vo none">ללא</span></div>
+        </div>
+      </article>
+
+      <!-- 11 -->
+      <article class="shot">
+        <div class="shot-head"><span class="num">11</span><span class="tc">00:50–00:55</span><span class="loc">חדר הלבשה · אחרי</span></div>
+        <div class="frames solo">
+          <div class="frame"><img src="frames/mirror-after.jpg" alt="Same mirror, warm light, small smile"><span class="tag">מהחומרים שלך</span></div>
+        </div>
+        <div class="shot-body">
+          <div class="row"><b>תמונה</b><span>אותה מראה מהפתיחה, עכשיו באור חם. שיער רטוב, לחיים סמוקות. היא מביטה בעצמה וחיוך קטן עולה. זה לא ניצחון. זה שלום.</span></div>
+          <div class="row"><b>מצלמה</b><span>בדיוק אותה קומפוזיציה כמו שוט 01, כדי שההבדל יורגש.</span></div>
+          <div class="row"><b>סאונד</b><span>תו פסנתר אחד, אותו תו מהפתיחה.</span></div>
+          <div class="row"><b>קריינות</b><span class="vo">“…and that's a life.”</span></div>
+        </div>
+      </article>
+
+      <!-- 12 -->
+      <article class="shot">
+        <div class="shot-head"><span class="num">12</span><span class="tc">00:55–01:00</span><span class="loc">סגיר</span></div>
+        <div class="endcard"><img src="frames/endframe.jpg" alt="End card: Holmes Place logo, One life. Live it well."></div>
+        <div class="shot-body">
+          <div class="row"><b>תמונה</b><span>התמונה מהמראה מתכהה לאט. הריבוע האדום של הלוגו עולה במרכז, ומתחתיו הסלוגן.</span></div>
+          <div class="row"><b>סופר</b><span class="en">One life. Live it well.</span></div>
+          <div class="row"><b>סאונד</b><span>נשימה אחרונה, ואז שקט.</span></div>
+          <div class="row"><b>קריינות</b><span class="vo">“One life. Live it well.”</span></div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>תסריט הקריינות המלא</h2>
+    <div class="script">
+      <ol>
+        <li><span class="t">00:01 · 01</span><span>Everyone tells you… you only get one life.</span></li>
+        <li><span class="t">00:11 · 03</span><span>I used to think that meant… something big.</span></li>
+        <li><span class="t">00:20 · 05</span><span>Turns out… it's made of small things.</span></li>
+        <li><span class="t">00:26 · 06</span><span>Moments you almost skip.</span></li>
+        <li><span class="t">00:31 · 07</span><span>The ones no one else sees.</span></li>
+        <li><span class="t">00:36 · 08</span><span>The ones that are just for you.</span></li>
+        <li><span class="t">00:42 · 09</span><span>Add them up…</span></li>
+        <li><span class="t">00:51 · 11</span><span>…and that's a life.</span></li>
+        <li class="final"><span class="t">00:56 · 12</span><span><em>One life.</em> Live it well.</span></li>
+      </ol>
+      <p class="count">כ-50 מילים בסך הכול. הרבה אוויר בין המשפטים, בכוונה: השקט הוא חלק מהקריינות.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap cols">
+    <div>
+      <h3>הקול</h3>
+      <p>קול נשי, בת 30–40, קרוב מאוד למיקרופון, כמעט לחישה. חם, לא "פרסומתי". מבטא בריטי רך או ניטרלי. מקליטים את זה כמונולוג פנימי ולא כקריינות: היא מדברת לעצמה, לא אלינו.</p>
+    </div>
+    <div>
+      <h3>מוזיקה וסאונד</h3>
+      <p>פסנתר מינימליסטי עם מיתרים שנכנסים בהדרגה, ברוח Ólafur Arnalds או Nils Frahm. הבנייה מגיעה לשיא במונטאז' ואז נחתכת לשקט מוחלט לפני הסגיר. הסאונד האמיתי מוביל: נשימות, מים, אדים, משקולת. כמעט ASMR.</p>
+    </div>
+    <div>
+      <h3>לוק ושפה</h3>
+      <p>חום־ענבר, שחור, ושמנת של הקרטונים. אור מעשי וטבעי, עומק שדה רדוד, גריין עדין. אותה דמות לאורך כל הסרט, כדי שזה ירגיש כמו יומן אישי.</p>
+      <div class="swatches">
+        <div class="sw" style="background:#F7F4EF" title="קרטונים"></div>
+        <div class="sw" style="background:#141210" title="טקסט"></div>
+        <div class="sw" style="background:#b8834a" title="אור ענבר"></div>
+        <div class="sw" style="background:#2e6a72" title="מים"></div>
+        <div class="sw" style="background:#D0494A" title="לוגו"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>גרסאות ותוצרים</h2>
+    <table>
+      <thead><tr><th>גרסה</th><th>אורך</th><th>שוטים</th></tr></thead>
+      <tbody>
+        <tr><td>מאסטר 16:9</td><td>60 שנ׳</td><td>01–12</td></tr>
+        <tr><td>קאטדאון</td><td>30 שנ׳</td><td>01, 03, 06, 07, 09, 11, 12</td></tr>
+        <tr><td>קאטדאון</td><td>15 שנ׳</td><td>06, 07, 09, 12</td></tr>
+        <tr><td>בומפרים לסושיאל</td><td>6 שנ׳ × 6</td><td>כל רגע לבד: קרטון, שוט, לוגו</td></tr>
+        <tr><td>סטורי ורילז</td><td>9:16</td><td>כל הגרסאות למעלה, בחיתוך אנכי</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>מה אני צריך ממך לפני שאני מתחיל</h2>
+    <ol class="asks">
+      <li><span><strong>שוטים חסרים.</strong> לשוטים 01 (המראה לפני), 02 (הכניסה) ו-08 (ג'קוזי) אין לי תמונה. בצילומי המסך כתוב "30 of 167", אז כנראה יש עוד באלבום. אם יש שם ג'קוזי, סאונה, חדר הלבשה או לובי, שלח לי ואשבץ.</span></li>
+      <li><span><strong>אישור תסריט.</strong> האם הטון והמשפטים של הקריינות עובדים לך, או שתרצה כיוון אחר: יותר אנרגטי, או יותר "מותגי"?</span></li>
+      <li><span><strong>אורך.</strong> 60 שניות כמאסטר, או שעדיף לבנות ישר 30 שניות?</span></li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">ONE · Holmes Place · סטוריבורד גרסה 1 · התמונות הן מהחומרים ששלחת, והשוטים המסומנים באדום חסרים.</div>
+</footer>
+
+</body>
+</html>
