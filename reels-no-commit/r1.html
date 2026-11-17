@@ -40,6 +40,9 @@
 .cta-line{font-size:70px;line-height:1.2;margin-top:90px}
 .tag{font-size:48px;font-weight:200;letter-spacing:.02em;direction:ltr;margin-top:110px;color:var(--muted)}
 .tag .sq{width:.22em;height:.22em}
+#it8 .card .ttl{font-size:98px}
+#plogo{position:absolute;top:96px;left:50%;margin-left:-66px;z-index:80;box-shadow:0 0 0 3px #fff}
+#plogo.logo-sq svg{width:82%}
 </style></head>
 <body><div id="stage">
 
@@ -54,7 +57,7 @@
 </section>
 
 <section class="scene light" id="s3">
-  <div class="top"><span class="cat" id="cat">אימון ומתקני כושר</span><span class="num" id="cnt">01 / 09</span></div>
+  <div class="top"><span class="cat" id="cat">אימון ומתקני כושר</span><span class="num" id="cnt">01 / 08</span></div>
   <div class="bar"><i id="barI"></i></div>
   <div id="items"></div>
 </section>
@@ -79,6 +82,7 @@
   </div>
 </section>
 
+<div id="plogo"></div>
 </div>
 <script src="node_modules/gsap/dist/gsap.min.js"></script>
 <script src="logo.js"></script>
@@ -94,8 +98,7 @@ const ITEMS = [
   ["inbody","בדיקת InBody","בדיקת מדדים אישית, מדויקת ומפורטת",0],
   null,
   ["kids","חוגי ילדים","לכל שכבות הגיל. קורדינציה, שיתוף פעולה והכי חשוב – כיף!",1],
-  ["camp","קייטנות|ופעילויות קיץ","פעילויות ספורטיביות, סדנאות יצירה, מתנפחים וימי בריכה",1],
-  ["events","אירועים","ימי הולדת, בר/בת מצווה, מסיבות סוף שנה וימי גיבוש",1],
+  ["camp","בריכה חיצונית|ופעילויות כל השנה","",1],
 ];
 const PHOTO = (k) => window.PHOTOS[k];
 (async () => {
@@ -113,7 +116,7 @@ const PHOTO = (k) => window.PHOTOS[k];
       const img = PHOTO(it[0]);
       if (!img) throw new Error("missing photo " + it[0]);
       d.innerHTML = `<div class="card"><img src="${img[0]}" style="object-position:${img[1] || "50% 40%"}"><i class="shade"></i><i class="inner"></i>
-        <div class="body"><div class="ttl" data-k="${it[1]}"></div><i class="rb"></i><p class="dsc">${it[2]}</p></div></div>`;
+        <div class="body"><div class="ttl" data-k="${it[1]}"></div><i class="rb"></i></div></div>`;
       d.dataset.n = n;
     }
     box.appendChild(d);
@@ -121,6 +124,7 @@ const PHOTO = (k) => window.PHOTOS[k];
   $("#pth").insertAdjacentHTML("beforeend", uline());
   $("#h2").insertAdjacentHTML("beforeend", uline());
   $("#lg").innerHTML = logoSquare(330);
+  $("#plogo").outerHTML = logoSquare(132).replace('class="logo-sq"', 'class="logo-sq" id="plogo"');
   $("#arr").innerHTML = (await icon("arrow-left"));
   kinetic();
   await Promise.all($$("img").map((im) => im.decode().catch(() => { throw new Error("bad img " + im.src); })));
@@ -156,13 +160,12 @@ const PHOTO = (k) => window.PHOTOS[k];
       return;
     }
     const nn = $(el).dataset.n;
-    tl.set("#cnt", { textContent: String(nn).padStart(2, "0") + " / 09" }, t);
+    tl.set("#cnt", { textContent: String(nn).padStart(2, "0") + " / 08" }, t);
     tl.from(el + " .card", { y: 90, rotateX: 12, autoAlpha: 0, transformPerspective: 1600, duration: 0.7, ease: "expo.out" }, t);
     tl.fromTo(el + " img", { scale: 1.16 }, { scale: 1.0, duration: SLOT, ease: "none" }, t);
     tl.from(el + " .inner", { inset: "0px", autoAlpha: 0, duration: 0.8, ease: "power2.out" }, t + 0.15);
     rise(tl, $(el + " .ttl"), t + 0.3, { duration: 0.8, stagger: 0.08 });
     tl.from(el + " .rb", { scaleX: 0, transformOrigin: "right", duration: 0.6, ease: "expo.out" }, t + 0.6);
-    tl.from(el + " .dsc", { y: 30, autoAlpha: 0, duration: 0.6, ease: "power2.out" }, t + 0.75);
     tl.to(el + " .card", { y: -20, duration: SLOT - 0.7, ease: "none" }, t + 0.7);
     tl.to(el + " .card", { autoAlpha: 0, y: -80, duration: 0.25, ease: "power2.in" }, t + SLOT - 0.25);
     if (nn === "2") counter(tl, $$(el + " .ttl .w")[0], 0, 100, t + 0.3, 0.9, (v) => "+" + Math.round(v));
@@ -184,6 +187,8 @@ const PHOTO = (k) => window.PHOTOS[k];
   const C = P + 3.8;
   window.DURATION = C + 4.2;
   showScene(tl, "#s5", C, null);
+  tl.from("#plogo", { autoAlpha: 0, y: -20, duration: 0.5, ease: "power2.out" }, 0.3);
+  tl.to("#plogo", { autoAlpha: 0, scale: 0.6, duration: 0.3, ease: "power2.in" }, C - 0.05);
   tl.from("#lg", { scale: 0, rotate: -12, duration: 0.7, ease: "back.out(1.7)" }, C + 0.05);
   tl.from("#lg svg", { autoAlpha: 0, y: 20, duration: 0.5 }, C + 0.4);
   rise(tl, "#ctl", C + 0.45, { stagger: 0.07 });
