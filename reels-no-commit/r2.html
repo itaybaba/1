@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.hdark{background:#191613}
+.big{font-size:500px;font-weight:800;line-height:.9;letter-spacing:-.04em;direction:ltr;font-variant-numeric:tabular-nums;position:relative}
+.lbl{font-size:72px;font-weight:300;line-height:1.25}
+.lbl b{font-weight:800}
+.lblA,.lblB{position:absolute;left:0;right:0;top:470px;text-align:center}
+.strike{position:absolute;left:-4%;right:-4%;top:50%;height:22px;background:var(--red);transform-origin:right;transform:scaleX(0)}
+.src{position:absolute;left:0;right:0;top:1400px;text-align:center;font-size:34px;font-weight:300;color:#a59d92}
+.s2a{font-size:112px;font-weight:200;line-height:1.1}
+.s2b{font-size:190px;font-weight:800;line-height:1.05;position:relative;display:inline-block;margin-top:20px}
+.st{position:absolute;inset:0;visibility:hidden;opacity:0}
+.st .head{position:absolute;top:260px;left:90px;right:90px;display:flex;justify-content:space-between;align-items:center}
+.st .head b{font-size:46px;font-weight:800}
+.st .head .num{font-size:38px;color:var(--gold)}
+.st .hbar{position:absolute;top:345px;right:90px;width:110px;height:4px;background:var(--red)}
+.st .c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 80px}
+.st .pre{font-size:70px;font-weight:300;margin-bottom:-30px}
+.st .n{font-size:430px;font-weight:800;line-height:1;color:var(--red);direction:ltr;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.st .l{font-size:84px;font-weight:800;line-height:1.12;margin-top:10px}
+.st .d{font-size:48px;font-weight:300;line-height:1.45;color:rgba(251,250,246,.72);margin-top:46px;max-width:880px}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:22px;margin-top:56px;max-width:900px}
+.chips span{border:2px solid var(--red);padding:16px 34px;font-size:48px;font-weight:700;border-radius:999px}
+.dots{position:absolute;top:1430px;left:0;right:0;display:flex;justify-content:center;gap:16px;direction:ltr}
+.dots i{width:46px;height:4px;background:rgba(251,250,246,.25)}
+.dots i.on{background:var(--red);width:80px}
+.ptitle{font-size:168px;line-height:1.02;font-weight:800;letter-spacing:-.02em}
+.pthin{font-size:168px;font-weight:200;position:relative;display:inline-block;margin-top:12px}
+.stamp{margin-top:110px;font-size:52px;font-weight:800;color:var(--red);border:4px solid var(--red);padding:18px 40px}
+</style></head>
+<body><div id="stage">
+
+<section class="scene dark hdark" id="s1">
+  <div class="lbl lblA" id="la" data-k="הנזק|*מהתקף *לב"></div>
+  <div class="lbl lblB" id="lb" data-k="אצל מי|*שמתאמן *באופן *קבוע"></div>
+  <div class="center" style="padding-top:260px"><div class="big" id="bigW"><span id="bigN">15%</span><i class="strike" id="strk"></i></div></div>
+  <p class="src" id="src">* לפי מחקרים</p>
+  <div class="grain"></div>
+</section>
+
+<section class="scene light" id="s2">
+  <div class="center" id="s2c">
+    <div class="s2a" data-k="לא רק|עיצוב וחיטוב." id="s2a"></div>
+    <div class="s2b" id="s2b"><span data-k="קודם כל,|בריאות■"></span></div>
+  </div>
+</section>
+
+<section class="scene dark hdark" id="s3">
+  <div id="sts"></div>
+  <div class="dots" id="dots"><i></i><i></i><i></i><i></i><i></i></div>
+  <p class="src" style="top:1490px">* לפי מחקרים</p>
+  <div class="grain"></div>
+</section>
+
+<section class="scene light" id="s4">
+  <div class="center" id="s4c">
+    <p class="eye" id="s4e" style="margin-bottom:80px"><i></i>לגוף שלך מגיע הולמס פלייס<i></i></p>
+    <div class="ptitle" data-k="מינוי ללא|התחייבות" id="pt"></div>
+    <div class="pthin" id="pth"><span data-k="במחיר מוזל■"></span></div>
+    <p class="stamp" id="stamp">הטבה של פעם בסופשנה!</p>
+  </div>
+</section>
+
+<section class="scene light" id="s5"></section>
+</div>
+<script src="node_modules/gsap/dist/gsap.min.js"></script>
+<script src="logo.js"></script>
+<script src="common.js"></script>
+<script>
+const STATS = [
+  { k: 2, head: "מוח צעיר וחד", pre: "עד", n: 50, suf: "%", l: "פחות סיכון לאלצהיימר,|דמנציה ופרקינסון", d: "למי שמתאמן באופן קבוע בגילאי 30 עד 50" },
+  { k: 3, head: "מצב רוח טוב יותר", n: 4, suf: "", l: "הורמוני אושר", chips: ["דופמין", "סרוטונין", "אנדורפינים", "אוקסיטוצין"] },
+  { k: 4, head: "פחות סיכון לסוכרת", n: 58, suf: "%", l: "פחות סיכון לסוכרת", d: "עם 150 דקות אימון בשבוע, אצל מבוגרים במצב של טרום סוכרת" },
+  { k: 5, head: "גוף חזק לאורך שנים", pre: "גם בעוד", n: 30, suf: "", l: "שנה – פעילים|ובמיטבכם", d: "אימון מחזק שרירים ועצמות ומפחית דלקתיות בגוף" },
+];
+(async () => {
+  $("#sts").innerHTML = STATS.map((s, i) => `<div class="st" id="st${i}">
+    <div class="head"><b>${s.head}</b><span class="num">0${s.k} / 05</span></div><i class="hbar"></i>
+    <div class="c">${s.pre ? `<div class="pre" data-k="${s.pre}"></div>` : ""}<div class="n">0</div>
+    <div class="l" data-k="${s.l}"></div>
+    ${s.d ? `<p class="d">${s.d}</p>` : ""}${s.chips ? `<div class="chips">${s.chips.map((c) => `<span>${c}</span>`).join("")}</div>` : ""}</div></div>`).join("");
+  $("#s2b").insertAdjacentHTML("beforeend", uline());
+  $("#pth").insertAdjacentHTML("beforeend", uline());
+  await buildCTA("#s5");
+  kinetic();
+
+  const tl = gsap.timeline({ paused: true });
+  window.DURATION = 32;
+  // S1 hook: 15% -> 3%  (slowed)
+  showScene(tl, "#s1", 0, 4.4);
+  tl.from("#bigW", { scale: 1.9, autoAlpha: 0, filter: "blur(26px)", duration: 0.5, ease: "expo.out" }, 0.03);
+  rise(tl, "#la", 0.15, { stagger: 0.07 });
+  tl.to("#strk", { scaleX: 1, duration: 0.3, ease: "power3.out" }, 1.15);
+  tl.to("#strk", { autoAlpha: 0, duration: 0.15 }, 1.55);
+  tl.to($$("#la .w"), { yPercent: -115, duration: 0.3, ease: "power3.in", stagger: 0.03 }, 1.3);
+  counter(tl, "#bigN", 15, 3, 1.6, 1.2, (v) => Math.round(v) + "%");
+  // keep the strike element inside after counter rewrites text
+  tl.to("#bigW", { color: "#ea3c42", scale: 1.12, duration: 0.9, ease: "power3.inOut" }, 1.5);
+  rise(tl, "#lb", 1.8, { stagger: 0.07 });
+  tl.from("#src", { autoAlpha: 0, duration: 0.4 }, 2.2);
+  tl.to("#bigW", { y: -10, duration: 0.8, repeat: 1, yoyo: true, ease: "sine.inOut" }, 2.5);
+
+  // S2
+  showScene(tl, "#s2", 4.4, 7.8);
+  tl.from("#s2", { clipPath: "inset(100% 0 0 0)", duration: 0.45, ease: "power3.out" }, 4.4);
+  rise(tl, "#s2a", 4.55, { stagger: 0.08 });
+  tl.to($$("#s2a .w"), { opacity: 0.35, duration: 0.4 }, 5.8);
+  rise(tl, "#s2b", 5.8, { yPercent: 125, duration: 0.8 });
+  drawLine(tl, "#s2b", 6.5, 0.6);
+  tl.fromTo("#s2c", { scale: 1 }, { scale: 1.05, duration: 3.4, ease: "none" }, 4.4);
+
+  // S3 stats
+  const T0 = 7.8, SL = 3.3;
+  showScene(tl, "#s3", T0, T0 + SL * 4);
+  STATS.forEach((s, i) => {
+    const t = T0 + i * SL, el = "#st" + i;
+    tl.set(el, { autoAlpha: 1 }, t); tl.set(el, { autoAlpha: 0 }, t + SL);
+    tl.set($$("#dots i"), { className: "" }, t);
+    tl.set($$("#dots i")[s.k - 1], { className: "on" }, t);
+    tl.from(el + " .head", { y: -30, autoAlpha: 0, duration: 0.4, ease: "power2.out" }, t);
+    tl.from(el + " .hbar", { scaleX: 0, transformOrigin: "right", duration: 0.5, ease: "expo.out" }, t + 0.1);
+    if (s.pre) rise(tl, $(el + " .pre"), t + 0.05);
+    tl.from(el + " .n", { scale: 0.5, autoAlpha: 0, duration: 0.5, ease: "back.out(1.6)" }, t + 0.05);
+    counter(tl, $(el + " .n"), 0, s.n, t + 0.05, s.n > 9 ? 0.9 : 0.6, (v) => Math.round(v) + s.suf);
+    rise(tl, $(el + " .l"), t + 0.35, { stagger: 0.06 });
+    if (s.d) tl.from(el + " .d", { y: 30, autoAlpha: 0, duration: 0.45 }, t + 0.7);
+    if (s.chips) tl.from($$(el + " .chips span"), { scale: 0.3, autoAlpha: 0, duration: 0.4, ease: "back.out(2)", stagger: 0.12 }, t + 0.6);
+    tl.to(el + " .c", { y: -26, duration: SL, ease: "none" }, t);
+    tl.to(el + " .n", { scale: 1.05, duration: SL - 0.6, ease: "none" }, t + 0.6);
+    tl.to(el + " .c", { autoAlpha: 0, y: -60, duration: 0.2, ease: "power2.in" }, t + SL - 0.2);
+  });
+
+  // S4 promo
+  const P = T0 + SL * 4; // 16.0
+  showScene(tl, "#s4", P, P + 3.8);
+  tl.from("#s4", { clipPath: "inset(0 0 0 100%)", duration: 0.45, ease: "power3.out" }, P);
+  tl.from("#s4e", { autoAlpha: 0, letterSpacing: ".5em", duration: 0.7 }, P + 0.2);
+  rise(tl, "#pt", P + 0.25, { stagger: 0.1, duration: 0.8 });
+  rise(tl, "#pth", P + 0.65);
+  drawLine(tl, "#pth", P + 1.0, 0.6);
+  tl.from("#stamp", { scale: 2.6, rotate: -10, autoAlpha: 0, duration: 0.4, ease: "power4.in" }, P + 1.4);
+  tl.to("#s4c", { x: 10, duration: 0.04, repeat: 5, yoyo: true }, P + 1.8);
+  tl.fromTo("#s4c", { scale: 0.97 }, { scale: 1.03, duration: 3.8, ease: "none" }, P);
+
+  const C = P + 3.8;
+  showScene(tl, "#s5", C, null);
+  animCTA(tl, "#s5", C);
+  tl.set({}, {}, window.DURATION);
+  window.tl = tl;
+  await document.fonts.ready;
+  window.READY = true;
+})();
+</script></body></html>

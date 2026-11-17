@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.card{position:absolute;inset:0;visibility:hidden;opacity:0;display:flex;align-items:center;justify-content:center;text-align:center}
+.q{font-size:178px;font-weight:800;line-height:1.02;letter-spacing:-.02em}
+.no{font-size:560px;font-weight:900;line-height:.9;letter-spacing:-.04em}
+.no2{font-size:300px;font-weight:900;line-height:.95}
+.strobe{position:absolute;inset:0;background:var(--red);opacity:0;z-index:2}
+.mq{position:absolute;left:-40%;width:180%;white-space:nowrap;font-size:150px;font-weight:800;color:transparent;-webkit-text-stroke:2px rgba(251,250,246,.16);direction:rtl;line-height:1.1}
+.mqw{position:absolute;inset:-20%;transform:rotate(-12deg)}
+.stack{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;gap:0}
+.stack div{font-size:210px;line-height:1.02;letter-spacing:-.03em}
+.zoomsq{position:absolute;left:50%;top:50%;width:240px;height:240px;margin:-120px 0 0 -120px;background:var(--red);display:grid;place-items:center;z-index:2}
+.zoomsq svg{width:80%;fill:#fff;direction:ltr}
+.mega{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;color:#fff}
+.mega div{font-size:250px;font-weight:900;line-height:.98;letter-spacing:-.03em}
+.price1{font-size:260px;font-weight:200;line-height:1}
+.price2{font-size:360px;font-weight:900;line-height:.95;color:var(--red);position:relative;display:inline-block}
+.stampW{position:absolute;left:0;right:0;top:1210px;display:flex;justify-content:center;z-index:5}
+.stamp3{font-size:84px;font-weight:900;color:#fff;background:var(--red);padding:22px 50px;transform:rotate(-7deg);box-shadow:0 0 0 6px var(--dark),0 0 0 10px var(--red)}
+.glint{position:absolute;top:-30%;bottom:-30%;width:220px;left:-30%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);z-index:6;mix-blend-mode:overlay}
+.lim3{position:absolute;left:0;right:0;top:1450px;display:flex;justify-content:center;gap:20px;align-items:center;font-size:40px;font-weight:700;letter-spacing:.22em;color:var(--ink);z-index:4}
+.lim3 b{width:22px;height:22px;border-radius:50%;background:var(--red)}
+.mql{position:absolute;inset:-20%;transform:rotate(-12deg);z-index:0}
+.mql .mq{-webkit-text-stroke:2px rgba(234,60,66,.13)}
+#s5 .center{z-index:2}
+</style></head>
+<body><div id="stage">
+
+<section class="scene dark" id="s1">
+  <div class="card dark" id="c1"><div class="q" data-k="התחייבות|לשנה?"></div></div>
+  <div class="card redbg" id="c2"><div class="no">לא.</div></div>
+  <div class="card light" id="c3"><div class="q" data-k="לחכות|לינואר?"></div></div>
+  <div class="card redbg" id="c4"><div class="no">לא.</div></div>
+  <div class="card dark" id="c5"><div class="q" data-k="תירוצים?"></div></div>
+  <div class="card redbg" id="c6"><div class="no2">גם<br>לא.</div></div>
+</section>
+
+<section class="scene dark" id="s2">
+  <div class="mqw" id="mqw"></div>
+  <div class="strobe" id="strobe"></div>
+  <div class="center"><div class="stack" id="stk">
+    <div class="t" id="k1">רק</div><div class="b" id="k2">אתם,</div><div class="t" id="k3">המועדון</div><div class="b" id="k4">והאנרגיה<span class="sq"></span></div>
+  </div></div>
+  <div class="grain"></div>
+</section>
+
+<section class="scene dark" id="s3">
+  <div class="zoomsq" id="zsq"></div>
+  <div class="center"><div class="mega" id="mega"><div id="m1">מינוי</div><div id="m2">ללא</div><div id="m3">התחייבות</div></div></div>
+</section>
+
+<section class="scene dark" id="s4">
+  <div class="center" id="s4c" style="padding-bottom:180px">
+    <div class="price1" data-k="במחיר" id="p1"></div>
+    <div class="price2" id="p2">מוזל<span class="sq" style="background:#fff"></span></div>
+  </div>
+  <div class="stampW"><div class="stamp3" id="stamp">פעם בסופשנה!</div></div>
+  <div class="glint" id="glint"></div>
+  <div class="grain"></div>
+</section>
+
+<section class="scene light" id="s5">
+  <div class="mql" id="mql"></div>
+  <div id="cta" style="position:absolute;inset:0"></div>
+  <p class="lim3" id="lim3"><b id="ld"></b>לזמן מוגבל בלבד</p>
+</section>
+</div>
+<script src="node_modules/gsap/dist/gsap.min.js"></script>
+<script src="logo.js"></script>
+<script src="common.js"></script>
+<script>
+(async () => {
+  const row = (txt, n) => Array(n).fill(txt).join(" ");
+  const rows = (cls) => [0,1,2,3,4,5,6,7,8,9].map((i) => `<div class="mq" style="top:${i * 13}%" data-r="${i}">${row("ללא התחייבות • במחיר מוזל •", 6)}</div>`).join("");
+  $("#mqw").innerHTML = rows();
+  $("#mql").innerHTML = rows();
+  $("#zsq").innerHTML = logo("");
+  await buildCTA("#cta");
+  kinetic();
+
+  const tl = gsap.timeline({ paused: true });
+  window.DURATION = 21.6;
+  // S1: question / answer slams
+  showScene(tl, "#s1", 0, 4.9);
+  const cards = [["#c1", 0, 0.85], ["#c2", 0.85, 1.6], ["#c3", 1.6, 2.45], ["#c4", 2.45, 3.2], ["#c5", 3.2, 4.0], ["#c6", 4.0, 4.9]];
+  cards.forEach(([id, a, b], i) => {
+    tl.set(id, { autoAlpha: 1 }, a); tl.set(id, { autoAlpha: 0 }, b);
+    const inner = $(id + " > div");
+    if (i % 2 === 0) {
+      rise(tl, inner, a, { duration: 0.35, stagger: 0.05, ease: "power4.out" });
+      tl.fromTo(inner, { scale: 0.92 }, { scale: 1.06, duration: b - a, ease: "none" }, a);
+    } else {
+      tl.from(inner, { scale: 3.2, filter: "blur(24px)", duration: 0.22, ease: "power4.in" }, a);
+      tl.to(inner, { x: 16, y: -10, duration: 0.035, repeat: 5, yoyo: true, ease: "none" }, a + 0.22);
+      tl.to(inner, { scale: 1.08, duration: b - a - 0.25, ease: "none" }, a + 0.25);
+    }
+  });
+
+  // S2: stacking words + strobe
+  const S2 = 4.9;
+  showScene(tl, "#s2", S2, S2 + 4.0);
+  $$("#mqw .mq").forEach((r, i) => tl.fromTo(r, { xPercent: i % 2 ? -12 : 0 }, { xPercent: i % 2 ? 0 : -12, duration: 4.0, ease: "none" }, S2));
+  ["#k1", "#k2", "#k3", "#k4"].forEach((k, i) => {
+    const t = S2 + 0.12 + i * 0.7;
+    tl.from(k, { xPercent: i % 2 ? -140 : 140, skewX: i % 2 ? 20 : -20, autoAlpha: 0, duration: 0.32, ease: "power4.out" }, t);
+    tl.fromTo("#strobe", { opacity: 0.85 }, { opacity: 0, duration: 0.22, ease: "power2.out" }, t + 0.02);
+  });
+  tl.to("#k4", { letterSpacing: ".06em", duration: 1.2, ease: "power2.out" }, S2 + 2.4);
+  tl.fromTo("#stk", { scale: 0.95 }, { scale: 1.08, duration: 4.0, ease: "none" }, S2);
+  tl.to("#stk", { x: 12, duration: 0.03, repeat: 7, yoyo: true }, S2 + 2.25);
+
+  // S3: logo square zooms to fill the screen, then the offer slams in
+  const S3 = 8.9;
+  showScene(tl, "#s3", S3, S3 + 4.2);
+  tl.from("#zsq", { scale: 0, rotate: -180, duration: 0.55, ease: "back.out(1.4)" }, S3 + 0.05);
+  tl.to("#zsq", { rotate: 8, duration: 0.4, ease: "sine.inOut" }, S3 + 0.6);
+  tl.to("#zsq svg", { autoAlpha: 0, duration: 0.15 }, S3 + 1.0);
+  tl.to("#zsq", { scale: 14, rotate: 0, duration: 0.45, ease: "power4.in" }, S3 + 1.0);
+  ["#m1", "#m2", "#m3"].forEach((m, i) => {
+    const t = S3 + 1.55 + i * 0.5;
+    tl.from(m, { scale: 2.8, autoAlpha: 0, filter: "blur(20px)", duration: 0.24, ease: "power4.in" }, t);
+    tl.to("#mega", { x: 14, y: 8, duration: 0.03, repeat: 5, yoyo: true }, t + 0.24);
+  });
+  tl.to("#mega", { scale: 1.07, duration: 1.6, ease: "none" }, S3 + 2.6);
+
+  // S4: price + stamp
+  const S4 = 13.1;
+  showScene(tl, "#s4", S4, S4 + 4.0);
+  tl.from("#s4", { clipPath: "circle(0% at 50% 50%)", duration: 0.4, ease: "power3.out" }, S4);
+  rise(tl, "#p1", S4 + 0.15, { duration: 0.6 });
+  tl.from("#p2", { yPercent: 60, scale: 0.6, autoAlpha: 0, duration: 0.5, ease: "back.out(1.8)" }, S4 + 0.45);
+  tl.fromTo("#glint", { left: "-30%" }, { left: "120%", duration: 0.7, ease: "power2.inOut" }, S4 + 0.9);
+  tl.from("#stamp", { scale: 3.5, rotate: -30, autoAlpha: 0, duration: 0.3, ease: "power4.in" }, S4 + 1.35);
+  tl.to("#s4c", { x: 16, y: -8, duration: 0.035, repeat: 7, yoyo: true }, S4 + 1.65);
+  tl.to("#stamp", { scale: 1.06, duration: 0.35, repeat: 3, yoyo: true, ease: "sine.inOut" }, S4 + 1.8);
+  tl.fromTo("#s4c", { scale: 1 }, { scale: 1.06, duration: 4.0, ease: "none" }, S4);
+
+  // S5: CTA
+  const C = S4 + 4.0;
+  showScene(tl, "#s5", C, null);
+  tl.from("#s5", { clipPath: "inset(0 100% 0 0)", duration: 0.4, ease: "power3.out" }, C);
+  $$("#mql .mq").forEach((r, i) => tl.fromTo(r, { xPercent: i % 2 ? -10 : 0 }, { xPercent: i % 2 ? 0 : -10, duration: 4.5, ease: "none" }, C));
+  animCTA(tl, "#cta", C + 0.15);
+  tl.from("#lim3", { autoAlpha: 0, y: 20, duration: 0.5 }, C + 1.6);
+  tl.to("#ld", { autoAlpha: 0.15, duration: 0.3, repeat: 5, yoyo: true }, C + 1.9);
+  tl.set({}, {}, window.DURATION);
+  window.tl = tl;
+  await document.fonts.ready;
+  window.READY = true;
+})();
+</script></body></html>

@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.hook1{font-size:420px;line-height:.9;font-weight:800;letter-spacing:-.03em}
+.hook2{font-size:200px;line-height:1;font-weight:200;position:relative;display:inline-block;margin-top:10px}
+.sub{font-size:76px;line-height:1.2;margin-top:110px;color:#efe9df}
+.wipe{position:absolute;top:-10%;bottom:-10%;width:140%;right:-210%;background:var(--red);transform:skewX(-14deg);z-index:50}
+.item{position:absolute;inset:0;visibility:hidden;opacity:0}
+.item .ghost{position:absolute;top:430px;left:0;right:0;text-align:center;font-family:Cinzel;font-weight:700;font-size:820px;line-height:1;color:transparent;-webkit-text-stroke:3px #ebe5db;direction:ltr}
+.item .c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 90px}
+.ico{width:230px;height:230px;display:grid;place-items:center;border:3px solid var(--red);margin-bottom:70px;position:relative}
+.ico svg{width:120px;height:120px;stroke:var(--red);stroke-width:1.6;fill:none}
+.ico::after{content:"";position:absolute;inset:14px;border:1px solid rgba(234,60,66,.35)}
+.ttl{font-size:150px;font-weight:800;line-height:1.02;letter-spacing:-.02em}
+.dsc{font-size:50px;font-weight:300;line-height:1.45;color:var(--muted);margin-top:44px;max-width:860px}
+.card{position:absolute;left:70px;right:70px;top:380px;height:1120px;overflow:hidden;background:var(--ink);color:var(--paper);box-shadow:0 50px 90px -40px rgba(29,27,24,.6)}
+.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.card .shade{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,18,16,.92) 0%,rgba(20,18,16,.55) 34%,rgba(20,18,16,0) 62%)}
+.card .inner{position:absolute;inset:26px;border:2px solid rgba(234,60,66,.85)}
+.card .body{position:absolute;left:70px;right:70px;bottom:80px;text-align:right}
+.card .ttl{font-size:120px;color:#fff}
+.card .rb{display:block;height:4px;width:110px;background:var(--red);margin:30px 0 26px}
+.card .dsc{font-size:46px;color:rgba(251,250,246,.92);margin-top:0;max-width:none;text-shadow:0 2px 14px rgba(0,0,0,.6)}
+.top{position:absolute;top:250px;left:90px;right:90px;display:flex;justify-content:space-between;align-items:center;z-index:5}
+.top .cat{font-size:38px;font-weight:700;color:var(--ink)}
+.top .num{font-size:36px;color:var(--gold)}
+.bar{position:absolute;top:330px;left:90px;right:90px;height:3px;background:var(--line);z-index:5}
+.bar i{position:absolute;inset:0;background:var(--red);transform-origin:right;transform:scaleX(0)}
+.fam{background:var(--red);color:#fff;z-index:10}
+.fam .a{font-size:120px;font-weight:200;line-height:1.1}
+.fam .b2{font-size:210px;font-weight:800;line-height:1;direction:ltr;letter-spacing:.06em}
+.fam .c3{font-size:110px;font-weight:200;line-height:1.15;margin-top:20px}
+.ptitle{font-size:168px;line-height:1.02;font-weight:800;letter-spacing:-.02em}
+.pthin{font-size:168px;font-weight:200;position:relative;display:inline-block;margin-top:12px}
+.limit{display:flex;align-items:center;gap:22px;margin-top:120px;font-size:42px;font-weight:700;letter-spacing:.22em}
+.limit b{width:22px;height:22px;border-radius:50%;background:var(--red);display:block}
+.limit span{border-bottom:2px solid var(--red);padding-bottom:8px}
+.flash{position:absolute;top:-20%;bottom:-20%;width:80%;left:-100%;background:linear-gradient(90deg,transparent,var(--red) 20%,var(--red) 80%,transparent);transform:skewX(-18deg);z-index:40}
+.cta-line{font-size:70px;line-height:1.2;margin-top:90px}
+.tag{font-size:48px;font-weight:200;letter-spacing:.02em;direction:ltr;margin-top:110px;color:var(--muted)}
+.tag .sq{width:.22em;height:.22em}
+</style></head>
+<body><div id="stage">
+
+<section class="scene dark" id="s1">
+  <div class="center" id="s1c">
+    <p class="eye" id="s1e" style="margin-bottom:90px"><i></i>הטבה של פעם בסופשנה!<i></i></p>
+    <div class="hook1" id="h1">בלי</div>
+    <div class="hook2" id="h2"><span data-k="התחייבות■"></span></div>
+    <p class="sub" id="s1s" data-k="*מינוי *ללא *התחייבות|~במחיר ~מוזל"></p>
+  </div>
+  <div class="wipe" id="wipe1"></div>
+</section>
+
+<section class="scene light" id="s3">
+  <div class="top"><span class="cat" id="cat">אימון ומתקני כושר</span><span class="num" id="cnt">01 / 09</span></div>
+  <div class="bar"><i id="barI"></i></div>
+  <div id="items"></div>
+</section>
+
+<section class="scene dark" id="s4">
+  <div class="center" id="s4c">
+    <p class="eye" id="s4e" style="margin-bottom:80px"><i></i>הזדמנות של פעם בסופשנה!<i></i></p>
+    <div class="ptitle" data-k="מינוי ללא|התחייבות" id="pt"></div>
+    <div class="pthin" id="pth"><span data-k="במחיר מוזל■"></span></div>
+    <p class="limit" id="lim"><b id="limDot"></b><span>לזמן מוגבל בלבד</span></p>
+  </div>
+  <div class="flash" id="flash"></div>
+  <div class="grain"></div>
+</section>
+
+<section class="scene light" id="s5">
+  <div class="center" style="padding-bottom:120px">
+    <div id="lg"></div>
+    <div class="cta-line" id="ctl" data-k="*מינוי *ללא *התחייבות|~במחיר ~מוזל"></div>
+    <div style="margin-top:80px" id="pillW"><span class="pill" id="pill"><i class="ring" id="ring"></i>הקליקו לפרטים והצטרפות <span id="arr"></span></span></div>
+    <p class="tag" id="tag">One life. Live it well<span class="sq"></span></p>
+  </div>
+</section>
+
+</div>
+<script src="node_modules/gsap/dist/gsap.min.js"></script>
+<script src="logo.js"></script>
+<script src="common.js"></script>
+<script src="photos.js"></script>
+<script>
+const ITEMS = [
+  ["gym","חדר כושר ענק","מבחר עצום של מכשירי אירובי, ציוד כושר וכח מהמובילים בעולם",0],
+  ["studio","+100|שיעורי סטודיו","בכל שבוע: גוף ונפש, עיצוב וחיטוב ושריפת שומנים",0],
+  ["spinning","סטודיו ספינינג","אולם חשוך, תאורה, אתם והאופניים. ועכשיו – תגבירו את הקצב",0],
+  ["pilates","פילאטיס מכשירים","סטודיו בוטיק לייצוב, חיזוק, איזון וגמישות",0],
+  ["personal","אימונים אישיים","עם צוות המאמנים המקצועי שלנו, בדרך האפקטיבית ביותר",0],
+  ["inbody","בדיקת InBody","בדיקת מדדים אישית, מדויקת ומפורטת",0],
+  null,
+  ["kids","חוגי ילדים","לכל שכבות הגיל. קורדינציה, שיתוף פעולה והכי חשוב – כיף!",1],
+  ["camp","קייטנות|ופעילויות קיץ","פעילויות ספורטיביות, סדנאות יצירה, מתנפחים וימי בריכה",1],
+  ["events","אירועים","ימי הולדת, בר/בת מצווה, מסיבות סוף שנה וימי גיבוש",1],
+];
+const PHOTO = (k) => window.PHOTOS[k];
+(async () => {
+  const box = $("#items");
+  let n = 0;
+  for (let i = 0; i < ITEMS.length; i++) {
+    const it = ITEMS[i];
+    const d = document.createElement("div");
+    d.className = "item" + (it ? "" : " fam");
+    d.id = "it" + i;
+    if (!it) {
+      d.innerHTML = `<div class="c"><div class="a" data-k="ובמועדוני ה-"></div><div class="b2" data-k="FAMILY"></div><div class="c3" data-k="*של *הולמס *פלייס"></div></div>`;
+    } else {
+      n++;
+      const img = PHOTO(it[0]);
+      if (!img) throw new Error("missing photo " + it[0]);
+      d.innerHTML = `<div class="card"><img src="${img[0]}" style="object-position:${img[1] || "50% 40%"}"><i class="shade"></i><i class="inner"></i>
+        <div class="body"><div class="ttl" data-k="${it[1]}"></div><i class="rb"></i><p class="dsc">${it[2]}</p></div></div>`;
+      d.dataset.n = n;
+    }
+    box.appendChild(d);
+  }
+  $("#pth").insertAdjacentHTML("beforeend", uline());
+  $("#h2").insertAdjacentHTML("beforeend", uline());
+  $("#lg").innerHTML = logoSquare(330);
+  $("#arr").innerHTML = (await icon("arrow-left"));
+  kinetic();
+  await Promise.all($$("img").map((im) => im.decode().catch(() => { throw new Error("bad img " + im.src); })));
+
+  const tl = gsap.timeline({ paused: true });
+  // S1 hook
+  const H = 4.2;
+  showScene(tl, "#s1", 0, H);
+  tl.from("#h1", { scale: 2.4, autoAlpha: 0, filter: "blur(30px)", duration: 0.6, ease: "expo.out" }, 0.04);
+  tl.from("#s1e", { autoAlpha: 0, letterSpacing: ".5em", duration: 0.9, ease: "power2.out" }, 0.25);
+  rise(tl, "#h2", 0.6, { duration: 0.9 });
+  drawLine(tl, "#h2", 1.15, 0.6);
+  rise(tl, "#s1s", 1.8, { stagger: 0.1, duration: 0.8 });
+  tl.fromTo("#s1c", { scale: 1 }, { scale: 1.06, duration: H, ease: "none" }, 0);
+  tl.to("#h1", { x: -8, duration: 0.05, repeat: 5, yoyo: true, ease: "none" }, 0.62);
+  tl.to("#wipe1", { right: "-20%", duration: 0.5, ease: "power3.in" }, H - 0.5);
+
+  // S3 list (photo cards, like the site's service cards)
+  const L0 = H, SLOT = 2.1, N = ITEMS.length;
+  showScene(tl, "#s3", L0, L0 + SLOT * N);
+  tl.to("#barI", { scaleX: 1, duration: SLOT * N, ease: "none" }, L0);
+  ITEMS.forEach((it, i) => {
+    const t = L0 + i * SLOT, el = "#it" + i;
+    tl.set(el, { autoAlpha: 1 }, t);
+    tl.set(el, { autoAlpha: 0 }, t + SLOT);
+    if (!it) {
+      tl.from(el, { clipPath: "inset(0 0 0 100%)", duration: 0.45, ease: "power3.out" }, t);
+      rise(tl, $(el + " .a"), t + 0.15, { duration: 0.8 });
+      tl.from($$(el + " .b2 .w"), { yPercent: 120, letterSpacing: ".4em", duration: 0.9, ease: "expo.out" }, t + 0.4);
+      rise(tl, $(el + " .c3"), t + 0.75, { stagger: 0.1, duration: 0.8 });
+      tl.to(el + " .c", { scale: 1.07, duration: SLOT, ease: "none" }, t);
+      tl.set("#cat", { textContent: "פעילויות למשפחה" }, t + SLOT);
+      return;
+    }
+    const nn = $(el).dataset.n;
+    tl.set("#cnt", { textContent: String(nn).padStart(2, "0") + " / 09" }, t);
+    tl.from(el + " .card", { y: 90, rotateX: 12, autoAlpha: 0, transformPerspective: 1600, duration: 0.7, ease: "expo.out" }, t);
+    tl.fromTo(el + " img", { scale: 1.16 }, { scale: 1.0, duration: SLOT, ease: "none" }, t);
+    tl.from(el + " .inner", { inset: "0px", autoAlpha: 0, duration: 0.8, ease: "power2.out" }, t + 0.15);
+    rise(tl, $(el + " .ttl"), t + 0.3, { duration: 0.8, stagger: 0.08 });
+    tl.from(el + " .rb", { scaleX: 0, transformOrigin: "right", duration: 0.6, ease: "expo.out" }, t + 0.6);
+    tl.from(el + " .dsc", { y: 30, autoAlpha: 0, duration: 0.6, ease: "power2.out" }, t + 0.75);
+    tl.to(el + " .card", { y: -20, duration: SLOT - 0.7, ease: "none" }, t + 0.7);
+    tl.to(el + " .card", { autoAlpha: 0, y: -80, duration: 0.25, ease: "power2.in" }, t + SLOT - 0.25);
+    if (nn === "2") counter(tl, $$(el + " .ttl .w")[0], 0, 100, t + 0.3, 0.9, (v) => "+" + Math.round(v));
+  });
+
+  // S4 promo
+  const P = L0 + SLOT * N;
+  showScene(tl, "#s4", P, P + 3.8);
+  tl.fromTo("#flash", { left: "-100%" }, { left: "130%", duration: 0.55, ease: "power2.inOut" }, P);
+  tl.from("#s4e", { autoAlpha: 0, letterSpacing: ".5em", duration: 0.7 }, P + 0.15);
+  rise(tl, "#pt", P + 0.25, { stagger: 0.1, duration: 0.8 });
+  rise(tl, "#pth", P + 0.65);
+  drawLine(tl, "#pth", P + 1.0, 0.6);
+  tl.from("#lim", { autoAlpha: 0, y: 24, duration: 0.5 }, P + 1.3);
+  tl.to("#limDot", { scale: 1.8, autoAlpha: 0.3, duration: 0.4, repeat: 3, yoyo: true, ease: "sine.inOut" }, P + 1.4);
+  tl.fromTo("#s4c", { scale: 0.97 }, { scale: 1.04, duration: 3.8, ease: "none" }, P);
+
+  // S5 CTA
+  const C = P + 3.8;
+  window.DURATION = C + 4.2;
+  showScene(tl, "#s5", C, null);
+  tl.from("#lg", { scale: 0, rotate: -12, duration: 0.7, ease: "back.out(1.7)" }, C + 0.05);
+  tl.from("#lg svg", { autoAlpha: 0, y: 20, duration: 0.5 }, C + 0.4);
+  rise(tl, "#ctl", C + 0.45, { stagger: 0.07 });
+  tl.from("#pillW", { y: 80, autoAlpha: 0, duration: 0.6, ease: "back.out(1.6)" }, C + 0.9);
+  tl.fromTo("#ring", { scale: 1, autoAlpha: 0.8 }, { scale: 1.35, autoAlpha: 0, duration: 1.0, repeat: 2, ease: "power2.out" }, C + 1.4);
+  tl.to("#arr", { x: -14, duration: 0.4, repeat: 5, yoyo: true, ease: "sine.inOut" }, C + 1.4);
+  tl.from("#tag", { autoAlpha: 0, y: 20, duration: 0.6 }, C + 1.3);
+  tl.to("#lg", { y: -10, duration: 1, repeat: 1, yoyo: true, ease: "sine.inOut" }, C + 1.0);
+  tl.set({}, {}, window.DURATION);
+  window.tl = tl;
+  await document.fonts.ready;
+  window.READY = true;
+})();
+</script></body></html>
